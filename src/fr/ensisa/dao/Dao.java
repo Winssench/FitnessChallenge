@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.dao;
 /**
- *		@file            	Challenge.java
+ *		@file            	Dao.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,63 +33,16 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.GamingMode;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
 
-public class Challenge {
+public interface Dao<T> {
 
-    private long id;
-    private String name;
-    private int maxUsers;
-    private List<Segment> trip;
-    private GamingMode mode;
-
-    public Challenge(String name, int maxUsers, GamingMode mode) {
-        this.name = name;
-        this.maxUsers = maxUsers;
-        this.mode = mode;
-        this.trip = new ArrayList<>();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMaxUsers() {
-        return maxUsers;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public List<Segment> getTrip() {
-        return trip;
-    }
-
-    public void setTrip(List<Segment> trip) {
-        this.trip = trip;
-    }
-
-    public GamingMode getMode() {
-        return mode;
-    }
-
-    public void setMode(GamingMode mode) {
-        this.mode = mode;
-    }
+    Optional<T> find(long id);
+    Collection<T> findAll();
+    void persist(T t);
+    void update(T t, String[] params);
+    void remove(T t);
+    long count();
 
 }

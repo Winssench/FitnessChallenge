@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.res;
 /**
- *		@file            	Challenge.java
+ *		@file            	Role.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,63 +33,29 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.GamingMode;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Optional;
 
-public class Challenge {
+public enum Role {
 
-    private long id;
-    private String name;
-    private int maxUsers;
-    private List<Segment> trip;
-    private GamingMode mode;
+    ADMINISTRATOR("Administrator"),
+    CREATOR("Creator"),
+    PLAYER("Player");
 
-    public Challenge(String name, int maxUsers, GamingMode mode) {
+    private final String name;
+
+    Role(String name) {
         this.name = name;
-        this.maxUsers = maxUsers;
-        this.mode = mode;
-        this.trip = new ArrayList<>();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMaxUsers() {
-        return maxUsers;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public List<Segment> getTrip() {
-        return trip;
-    }
-
-    public void setTrip(List<Segment> trip) {
-        this.trip = trip;
-    }
-
-    public GamingMode getMode() {
-        return mode;
-    }
-
-    public void setMode(GamingMode mode) {
-        this.mode = mode;
+    public static Optional<Role> find(String name) {
+        return Arrays.stream(values())
+                .filter(role -> role.name.equals(name))
+                .findFirst();
     }
 
 }

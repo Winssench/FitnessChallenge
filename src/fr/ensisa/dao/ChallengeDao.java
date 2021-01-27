@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.dao;
 /**
- *		@file            	Challenge.java
+ *		@file            	ChallengeDao.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,63 +33,45 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import fr.ensisa.model.Challenge;
 import fr.ensisa.res.GamingMode;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Challenge {
+public class ChallengeDao implements Dao<Challenge> {
 
-    private long id;
-    private String name;
-    private int maxUsers;
-    private List<Segment> trip;
-    private GamingMode mode;
+    private final Map<Long, Challenge> store = Collections.synchronizedMap(new TreeMap<Long, Challenge>());
 
-    public Challenge(String name, int maxUsers, GamingMode mode) {
-        this.name = name;
-        this.maxUsers = maxUsers;
-        this.mode = mode;
-        this.trip = new ArrayList<>();
+    @Override
+    public Optional<Challenge> find(long id) {
+        return Optional.ofNullable(store.get(id));
     }
 
-    public long getId() {
-        return id;
+    @Override
+    public Collection<Challenge> findAll() {
+        return store.values();
     }
 
-    public void setId(long id) {
-        this.id = id;
+    @Override
+    public void persist(Challenge challenge) {
+        store.put(challenge.getId(), challenge);
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public void update(Challenge challenge, String[] params) {
+        challenge.setName(Objects.requireNonNull(params[0], "A challenge must have a name"));
+        challenge.setMaxUsers(Objects.requireNonNull(Integer.valueOf(params[0]), "A challenge must have a maximum number of users"));
+        challenge.setMode(Objects.requireNonNull(GamingMode.find(params[0]).get(), "A challenge must have a gaming mode"));
+        store.put(challenge.getId(), challenge);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public void remove(Challenge challenge) {
+        store.remove(challenge.getId());
     }
 
-    public int getMaxUsers() {
-        return maxUsers;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public List<Segment> getTrip() {
-        return trip;
-    }
-
-    public void setTrip(List<Segment> trip) {
-        this.trip = trip;
-    }
-
-    public GamingMode getMode() {
-        return mode;
-    }
-
-    public void setMode(GamingMode mode) {
-        this.mode = mode;
+    @Override
+    public long count() {
+        return store.size();
     }
 
 }
