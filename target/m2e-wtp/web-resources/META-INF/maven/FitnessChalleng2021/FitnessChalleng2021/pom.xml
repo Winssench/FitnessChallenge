@@ -54,5 +54,17 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>3.0.0-M6</version>
         </dependency>
+        
+        <dependency>
+	        <groupId>io.jsonwebtoken</groupId>
+	        <artifactId>jjwt</artifactId>
+	        <version>0.6.0</version>
+    	</dependency>
+    	<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.23</version>
+		</dependency>
+    	
   </dependencies>
 </project>
