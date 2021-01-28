@@ -34,42 +34,84 @@ package fr.ensisa.dao;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.model.User;
+
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 import java.util.*;
 
 public class UserDao implements Dao<User> {
 
     private final Map<Long, User> store = Collections.synchronizedMap(new TreeMap<Long, User>());
-
+    
+    
+    private   EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("FitnessChalleng2021");
+    
+    private EntityManager entitymanager = emfactory.createEntityManager( );
+  
+    
+    
     @Override
-    public Optional<User> find(long id) {
-        return Optional.ofNullable(store.get(id));
+    public Optional<User> find(long id) {  	
+    	User user = entitymanager.find(User.class, id);
+    	return Optional.ofNullable(user);
     }
 
     @Override
     public Collection<User> findAll() {
-        return store.values();
+    	this.entitymanager.getTransaction().begin();
+    	Collection<User> list = entitymanager.createQuery("Select a FROM User a", User.class).getResultList();
+    	entitymanager.getTransaction().commit();
+    	entitymanager.close();
+    	emfactory.close();
+    	return list;
     }
 
     @Override
     public void persist(User user) {
-        store.put(user.getId(), user);
+
+    	this.entitymanager.getTransaction().begin();
+    	entitymanager.persist(user);
+    	entitymanager.getTransaction().commit();
+    	
+    	entitymanager.close();
+    	emfactory.close();
     }
 
     @Override
     public void update(User user, String[] params) {
-        user.setUsername(Objects.requireNonNull(params[0], "An user must have an username"));
-        user.setPassword(Objects.requireNonNull(params[1], "An user must have a password"));
-        store.put(user.getId(), user);
+    	this.entitymanager.getTransaction().begin();
+        User oldUser= entitymanager.find(User.class, user.getId());
+        oldUser.setUsername(Objects.requireNonNull(params[0], "An user must have an username"));
+        oldUser.setPassword(Objects.requireNonNull(params[1], "An user must have a password"));
+        entitymanager.getTransaction().commit();
+        entitymanager.close();
+    	emfactory.close();
+        
     }
 
     @Override
     public void remove(User user) {
-        store.remove(user.getId());
+        //store.remove(user.getId());
+    	this.entitymanager.getTransaction().begin();
+  
+    	User oldUser= entitymanager.find(User.class, user.getId());
+    	entitymanager.remove(oldUser);
+    	entitymanager.getTransaction().commit();
+    	entitymanager.close();
+     	emfactory.close();
     }
 
     @Override
     public long count() {
-        return store.size();
+        //return store.size();
+    	Collection<User> list = this.findAll();
+    	return list.size();
+    	
+    	
     }
 
 }

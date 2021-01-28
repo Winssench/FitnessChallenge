@@ -18,6 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import fr.ensisa.res.Role;
 
@@ -37,19 +42,40 @@ import fr.ensisa.res.Role;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 
+@Entity
+@Table
 public class User {
 
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	
     private long id;
     private String username;
     private String password;
     private Role role;
+    
 
-    public User(String username, String password) {
+    public User(long id, String username, String password, Role role) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+	}
+
+	public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
+	
+	
 
-    public long getId() {
+    public User() {
+		super();
+	}
+
+	public long getId() {
         return id;
     }
 
