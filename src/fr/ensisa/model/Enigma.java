@@ -69,4 +69,13 @@ public class Enigma extends Obstacle {
         return this.answer.equalsIgnoreCase(answer);
     }
 
+    @Override
+    public String toString() {
+        return "Enigma{" +
+                "answer='" + answer + '\'' +
+                ", goal='" + goal + '\'' +
+                ", type=" + type +
+                '}';
+    }
+
 }

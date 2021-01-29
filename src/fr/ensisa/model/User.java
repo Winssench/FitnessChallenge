@@ -18,9 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
-
-import fr.ensisa.res.Role;
-
 /**
  *		@file            	User.java
  *      @details
@@ -36,6 +33,7 @@ import fr.ensisa.res.Role;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import fr.ensisa.res.Role;
 
 public class User {
 
@@ -47,6 +45,10 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public User() {
+        super();
     }
 
     public long getId() {
@@ -79,5 +81,15 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

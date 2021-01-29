@@ -41,15 +41,21 @@ public class Challenge {
 
     private long id;
     private String name;
+    private String author;
     private int maxUsers;
     private List<Segment> trip;
     private GamingMode mode;
 
-    public Challenge(String name, int maxUsers, GamingMode mode) {
+    public Challenge(String name, String author, int maxUsers, GamingMode mode) {
         this.name = name;
+        this.author = author;
         this.maxUsers = maxUsers;
         this.mode = mode;
         this.trip = new ArrayList<>();
+    }
+
+    public Challenge() {
+        super();
     }
 
     public long getId() {
@@ -66,6 +72,14 @@ public class Challenge {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public int getMaxUsers() {
@@ -90,6 +104,18 @@ public class Challenge {
 
     public void setMode(GamingMode mode) {
         this.mode = mode;
+    }
+
+    @Override
+    public String toString() {
+        return "Challenge{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", maxUsers=" + maxUsers +
+                ", trip=" + trip +
+                ", mode=" + mode +
+                '}';
     }
 
 }

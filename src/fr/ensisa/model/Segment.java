@@ -92,4 +92,15 @@ public class Segment {
         this.obstacles = obstacles;
     }
 
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "next=" + next +
+                ", start=" + start +
+                ", end=" + end +
+                ", obstacles=" + obstacles +
+                ", distance=" + distance +
+                '}';
+    }
+
 }

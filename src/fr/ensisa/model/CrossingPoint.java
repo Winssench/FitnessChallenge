@@ -60,4 +60,11 @@ public class CrossingPoint {
         this.score = score;
     }
 
+    @Override
+    public String toString() {
+        return "CrossingPoint{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                '}';
+    }
 }

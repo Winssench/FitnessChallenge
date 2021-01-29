@@ -65,4 +65,13 @@ public class PhysicalTask extends Obstacle {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return "PhysicalTask{" +
+                "goal='" + goal + '\'' +
+                ", type=" + type +
+                ", state=" + state +
+                '}';
+    }
+
 }
