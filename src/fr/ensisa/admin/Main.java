@@ -36,6 +36,7 @@ package fr.ensisa.admin;
 import fr.ensisa.factory.ChallengeFactory;
 import fr.ensisa.factory.UserFactory;
 import fr.ensisa.model.Challenge;
+import fr.ensisa.model.User;
 import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,12 +67,14 @@ public class Main {
 	public Response getChallengesInPlainText() {
 		// Check if there is no challenge in the DAO
 		if (challengeFactory.getDao().count() == 0) {
+			// Define entity
 			String entity = "{error{reason='no challenges'" +
 					", message='Not Found'}" +
 					", code='404'}";
 			return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
 		}
 		else {
+			// Define entity
 			StringBuilder entity = new StringBuilder();
 			for (Challenge c : challengeFactory.getDao().findAll()) {
 				entity.append(c.toString());
@@ -213,27 +216,125 @@ public class Main {
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/signup")
-	public Response subscriptionInTextPlain() {
-		// TODO: Get Request Parameters
-		return Response.ok("subscribed").build();
+	public Response subscriptionInTextPlain(@QueryParam("username") String username, @QueryParam("password") String password) {
+		// Check if user already exists in the database
+		if (userFactory.getDao().contains(new String[]{username, password})) {
+			// Define entity
+			String entity = "{error{reason='user already exists'" +
+					", message='Conflict'}" +
+					", code='409'}";
+			return Response.status(Response.Status.CONFLICT).entity(entity).build();
+		}
+		else {
+			// Adding new User in the database
+			userFactory.getDao().persist(new User(username, password));
+
+			// Define entity
+			String entity = "{success{message='user has been created'" +
+					", code='200'}}";
+			return Response.ok(entity).build();
+		}
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/signup")
-	public Response subscriptionInXML() {
-		// TODO: Get Request Parameters
-		return Response.ok("subscribed").build();
+	public Response subscriptionInXML(@QueryParam("username") String username, @QueryParam("password") String password) throws ParserConfigurationException {
+		// Define a factory to produce DOM object trees from XML Documents
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		// Creates a builder
+		DocumentBuilder builder = factory.newDocumentBuilder();
+
+		// Creates a document
+		Document doc = builder.newDocument();
+
+		if (userFactory.getDao().contains(new String[]{username, password})) {
+			// Creates root element
+			Element root = doc.createElement("errors");
+			doc.appendChild(root);
+
+			// Creates error element
+			Element error = doc.createElement("error");
+
+			// Creates reason element
+			Element reason = doc.createElement("reason");
+			reason.appendChild(doc.createTextNode("user already exists"));
+			error.appendChild(reason);
+
+			// Creates message element
+			Element message = doc.createElement("message");
+			message.appendChild(doc.createTextNode("Conflict"));
+			error.appendChild(message);
+
+			// Creates code element
+			Element code = doc.createElement("code");
+			code.appendChild(doc.createTextNode("409"));
+			root.appendChild(error);
+			root.appendChild(code);
+
+			return Response.status(Response.Status.CONFLICT).entity(Parser.XML(doc)).build();
+		}
+		else {
+			// Adding new User in the database
+			userFactory.getDao().persist(new User(username, password));
+
+			// Creates root element
+			Element root = doc.createElement("success");
+			doc.appendChild(root);
+
+			// Creates message element
+			Element message = doc.createElement("message");
+			message.appendChild(doc.createTextNode("user has been created"));
+			root.appendChild(message);
+
+			// Creates code element
+			Element code = doc.createElement("code");
+			code.appendChild(doc.createTextNode("200"));
+			root.appendChild(code);
+
+			return Response.ok(Parser.XML(doc)).build();
+		}
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
-	public Response subscriptionInJSON() {
-		// TODO: Get Request Parameters
-		return Response.ok("subscribed").build();
+	public Response subscriptionInJSON(@QueryParam("username") String username, @QueryParam("password") String password) {
+		if (userFactory.getDao().contains(new String[]{username, password})) {
+			// Creates a JsonObject Builder
+			JsonObject value = Json.createObjectBuilder()
+					.add("error",
+							Json.createObjectBuilder()
+									.add("reason", "user already exists")
+									.add("message", "Conflict")
+									.build()
+					)
+					.add("code", "409")
+					.build();
+
+			return Response.status(Response.Status.CONFLICT).entity(value.toString()).build();
+		}
+		else {
+			// Adding new User in the database
+			userFactory.getDao().persist(new User(username, password));
+
+			// Creates a JsonObject Builder
+			JsonObject value = Json.createObjectBuilder()
+					.add("success",
+							Json.createObjectBuilder()
+									.add("message", "user has been created")
+									.add("username", username)
+									.add("password", password)
+									.add("code", "200")
+									.build()
+					)
+					.build();
+
+			return Response.ok(value.toString()).build();
+		}
 	}
 
 	@POST

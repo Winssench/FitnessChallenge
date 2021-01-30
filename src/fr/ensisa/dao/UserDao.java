@@ -34,8 +34,6 @@ package fr.ensisa.dao;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.model.User;
-import fr.ensisa.res.Role;
-
 import java.util.*;
 
 public class UserDao implements Dao<User, String> {
@@ -77,7 +75,7 @@ public class UserDao implements Dao<User, String> {
     @Override
     public boolean contains(String[] v) {
         for (User user : store.values()) {
-            if (user.getUsername().equals(v[0]) && user.getPassword().equals(v[1]) && user.getRole() == Role.find(v[2]).get()) {
+            if (user.getUsername().equals(v[0]) && user.getPassword().equals(v[1])) {
                 return true;
             }
         }
