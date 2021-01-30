@@ -217,22 +217,33 @@ public class Main {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/signup")
 	public Response subscriptionInTextPlain(@QueryParam("username") String username, @QueryParam("password") String password) {
-		// Check if user already exists in the database
-		if (userFactory.getDao().contains(new String[]{username, password})) {
+		// Check if query parameters is not empty
+		if ((username == null && password == null) || (username.isEmpty() && password.isEmpty())) {
 			// Define entity
-			String entity = "{error{reason='user already exists'" +
-					", message='Conflict'}" +
-					", code='409'}";
-			return Response.status(Response.Status.CONFLICT).entity(entity).build();
+			String entity = "{error{reason='null query parameters'" +
+					", message='Unauthorized'}" +
+					", code='401'}";
+			return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
 		}
 		else {
-			// Adding new User in the database
-			userFactory.getDao().persist(new User(username, password));
+			// Check if user already exists in the database
+			if (userFactory.getDao().contains(new String[]{username, password})) {
+				// Define entity
+				String entity = "{error{reason='user already exists'" +
+						", message='Conflict'}" +
+						", code='409'}";
+				return Response.status(Response.Status.CONFLICT).entity(entity).build();
+			}
+			else {
+				// Adding new User in the database
+				userFactory.getDao().persist(new User(username, password));
 
-			// Define entity
-			String entity = "{success{message='user has been created'" +
-					", code='200'}}";
-			return Response.ok(entity).build();
+				// Define entity
+				String entity = "{success{message='user has been created'" +
+						", token=''" +
+						", code='200'}}";
+				return Response.ok(entity).build();
+			}
 		}
 	}
 
@@ -250,7 +261,8 @@ public class Main {
 		// Creates a document
 		Document doc = builder.newDocument();
 
-		if (userFactory.getDao().contains(new String[]{username, password})) {
+		// Check if query parameters is not empty
+		if ((username == null && password == null) || (username.isEmpty() && password.isEmpty())) {
 			// Creates root element
 			Element root = doc.createElement("errors");
 			doc.appendChild(root);
@@ -260,41 +272,75 @@ public class Main {
 
 			// Creates reason element
 			Element reason = doc.createElement("reason");
-			reason.appendChild(doc.createTextNode("user already exists"));
+			reason.appendChild(doc.createTextNode("null query parameters"));
 			error.appendChild(reason);
 
 			// Creates message element
 			Element message = doc.createElement("message");
-			message.appendChild(doc.createTextNode("Conflict"));
+			message.appendChild(doc.createTextNode("Unauthorized"));
 			error.appendChild(message);
 
 			// Creates code element
 			Element code = doc.createElement("code");
-			code.appendChild(doc.createTextNode("409"));
+			code.appendChild(doc.createTextNode("401"));
 			root.appendChild(error);
 			root.appendChild(code);
 
-			return Response.status(Response.Status.CONFLICT).entity(Parser.XML(doc)).build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity(Parser.XML(doc)).build();
 		}
 		else {
-			// Adding new User in the database
-			userFactory.getDao().persist(new User(username, password));
+			// Check if user already exists in the database
+			if (userFactory.getDao().contains(new String[]{username, password})) {
+				// Creates root element
+				Element root = doc.createElement("errors");
+				doc.appendChild(root);
 
-			// Creates root element
-			Element root = doc.createElement("success");
-			doc.appendChild(root);
+				// Creates error element
+				Element error = doc.createElement("error");
 
-			// Creates message element
-			Element message = doc.createElement("message");
-			message.appendChild(doc.createTextNode("user has been created"));
-			root.appendChild(message);
+				// Creates reason element
+				Element reason = doc.createElement("reason");
+				reason.appendChild(doc.createTextNode("user already exists"));
+				error.appendChild(reason);
 
-			// Creates code element
-			Element code = doc.createElement("code");
-			code.appendChild(doc.createTextNode("200"));
-			root.appendChild(code);
+				// Creates message element
+				Element message = doc.createElement("message");
+				message.appendChild(doc.createTextNode("Conflict"));
+				error.appendChild(message);
 
-			return Response.ok(Parser.XML(doc)).build();
+				// Creates code element
+				Element code = doc.createElement("code");
+				code.appendChild(doc.createTextNode("409"));
+				root.appendChild(error);
+				root.appendChild(code);
+
+				return Response.status(Response.Status.CONFLICT).entity(Parser.XML(doc)).build();
+			}
+			else {
+				// Adding new User in the database
+				userFactory.getDao().persist(new User(username, password));
+
+				// Creates root element
+				Element root = doc.createElement("success");
+				doc.appendChild(root);
+
+				// Creates message element
+				Element message = doc.createElement("message");
+				message.appendChild(doc.createTextNode("user has been created"));
+				root.appendChild(message);
+
+				// Creates token element
+				Element token = doc.createElement("token");
+				token.appendChild(doc.createTextNode(""));
+				root.appendChild(token);
+
+				// Creates code element
+				Element code = doc.createElement("code");
+				code.appendChild(doc.createTextNode("200"));
+				root.appendChild(code);
+
+				return Response.ok(Parser.XML(doc)).build();
+			}
 		}
 	}
 
@@ -303,35 +349,54 @@ public class Main {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signup")
 	public Response subscriptionInJSON(@QueryParam("username") String username, @QueryParam("password") String password) {
-		if (userFactory.getDao().contains(new String[]{username, password})) {
+		// Check if query parameters is not empty
+		if ((username == null && password == null) || (username.isEmpty() && password.isEmpty())) {
 			// Creates a JsonObject Builder
 			JsonObject value = Json.createObjectBuilder()
 					.add("error",
 							Json.createObjectBuilder()
-									.add("reason", "user already exists")
-									.add("message", "Conflict")
+									.add("reason", "null query parameters")
+									.add("message", "Unauthorized")
 									.build()
 					)
-					.add("code", "409")
+					.add("code", "401")
 					.build();
 
-			return Response.status(Response.Status.CONFLICT).entity(value.toString()).build();
+			return Response.status(Response.Status.UNAUTHORIZED).entity(value.toString()).build();
 		}
 		else {
-			// Adding new User in the database
-			userFactory.getDao().persist(new User(username, password));
+			// Check if user already exists in the database
+			if (userFactory.getDao().contains(new String[]{username, password})) {
+				// Creates a JsonObject Builder
+				JsonObject value = Json.createObjectBuilder()
+						.add("error",
+								Json.createObjectBuilder()
+										.add("reason", "user already exists")
+										.add("message", "Conflict")
+										.build()
+						)
+						.add("code", "409")
+						.build();
 
-			// Creates a JsonObject Builder
-			JsonObject value = Json.createObjectBuilder()
-					.add("success",
-							Json.createObjectBuilder()
-									.add("message", "user has been created")
-									.add("code", "200")
-									.build()
-					)
-					.build();
+				return Response.status(Response.Status.CONFLICT).entity(value.toString()).build();
+			}
+			else {
+				// Adding new User in the database
+				userFactory.getDao().persist(new User(username, password));
 
-			return Response.ok(value.toString()).build();
+				// Creates a JsonObject Builder
+				JsonObject value = Json.createObjectBuilder()
+						.add("success",
+								Json.createObjectBuilder()
+										.add("message", "user has been created")
+										.add("token", "")
+										.add("code", "200")
+										.build()
+						)
+						.build();
+
+				return Response.ok(value.toString()).build();
+			}
 		}
 	}
 
@@ -339,7 +404,7 @@ public class Main {
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/signin")
-	public Response connectionInTextPlain() {
+	public Response connectionInTextPlain(@QueryParam("token") String token) {
 		// TODO : Get Request Parameters
 		return Response.ok("connected").build();
 	}
@@ -348,7 +413,7 @@ public class Main {
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/signin")
-	public Response connectionInXML() {
+	public Response connectionInXML(@QueryParam("token") String token) {
 		// TODO : Get Request Parameters
 		return Response.ok("connected").build();
 	}
@@ -357,7 +422,7 @@ public class Main {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
-	public Response connectionInJSON() {
+	public Response connectionInJSON(@QueryParam("token") String token) {
 		// TODO: Get Request Parameters
 		return Response.ok("connected").build();
 	}
