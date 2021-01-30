@@ -36,15 +36,18 @@ package fr.ensisa.admin;
 import fr.ensisa.factory.ChallengeFactory;
 import fr.ensisa.factory.UserFactory;
 import fr.ensisa.model.Challenge;
+import fr.ensisa.res.Parser;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.GET;
 import javax.ws.rs.core.Response;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 @Path("/")
 public class Main {
@@ -78,13 +81,82 @@ public class Main {
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/")
-	public Response getChallengesInXML() {
+	public Response getChallengesInXML() throws ParserConfigurationException {
+		// Define a factory to produce DOM object trees from XML Documents
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		// Creates a builder
+		DocumentBuilder builder = factory.newDocumentBuilder();
+
+		// Creates a document
+		Document doc = builder.newDocument();
+
 		// Check if there is no challenge in the DAO
 		if (challengeFactory.getDao().count() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).entity("").build();
+			// Creates root element
+			Element root = doc.createElement("errors");
+			doc.appendChild(root);
+
+			// Creates error element
+			Element error = doc.createElement("error");
+
+			// Creates reason element
+			Element reason = doc.createElement("reason");
+			reason.appendChild(doc.createTextNode("no challenges"));
+			error.appendChild(reason);
+
+			// Creates message element
+			Element message = doc.createElement("message");
+			message.appendChild(doc.createTextNode("Not Found"));
+			error.appendChild(message);
+
+			// Creates code element
+			Element code = doc.createElement("code");
+			code.appendChild(doc.createTextNode("404"));
+			root.appendChild(error);
+			root.appendChild(code);
+
+			return Response.status(Response.Status.NOT_FOUND).entity(Parser.XML(doc)).build();
 		}
 		else {
-			return Response.ok("").build();
+			// Creates root element
+			Element root = doc.createElement("challenges");
+			doc.appendChild(root);
+
+			for (Challenge c : challengeFactory.getDao().findAll()) {
+				// Create challenge element
+				Element challenge = doc.createElement("challenge");
+
+				// Create id element
+				Element id = doc.createElement("id");
+				id.appendChild(doc.createTextNode(String.valueOf(c.getId())));
+				challenge.appendChild(id);
+
+				// Create name element
+				Element name = doc.createElement("name");
+				name.appendChild(doc.createTextNode(c.getName()));
+				challenge.appendChild(name);
+
+				// Create author element
+				Element author = doc.createElement("author");
+				author.appendChild(doc.createTextNode(c.getAuthor()));
+				challenge.appendChild(author);
+
+				// Create maxUsers element
+				Element maxUsers = doc.createElement("maxUsers");
+				maxUsers.appendChild(doc.createTextNode(String.valueOf(c.getMaxUsers())));
+				challenge.appendChild(maxUsers);
+
+				// Create gamingMode element
+				Element gamingMode = doc.createElement("gamingMode");
+				gamingMode.appendChild(doc.createTextNode(c.getMode().getName()));
+				challenge.appendChild(gamingMode);
+
+				// Append challenge element to root element
+				root.appendChild(challenge);
+			}
+
+			return Response.ok(Parser.XML(doc)).build();
 		}
 	}
 
@@ -102,7 +174,6 @@ public class Main {
 			return Response.status(Response.Status.NOT_FOUND).entity("").build();
 		}
 		else {
-			
 			return Response.ok("").build();
 		}
 	}
@@ -133,15 +204,15 @@ public class Main {
 		else {
 			// Create a JSON array Builder
 			JsonArrayBuilder array = Json.createArrayBuilder();
-			for (Challenge challenge : challengeFactory.getDao().findAll()) {
+			for (Challenge c : challengeFactory.getDao().findAll()) {
 				// Creates a JsonObject Builder
 				array.add(
 						Json.createObjectBuilder()
-						.add("id", challenge.getId())
-						.add("name", challenge.getName())
-						.add("author", challenge.getAuthor())
-						.add("maxUsers", challenge.getMaxUsers())
-						.add("gamingMode", challenge.getMode().getName())
+						.add("id", c.getId())
+						.add("name", c.getName())
+						.add("author", c.getAuthor())
+						.add("maxUsers", c.getMaxUsers())
+						.add("gamingMode", c.getMode().getName())
 						.build()
 				);
 			}
