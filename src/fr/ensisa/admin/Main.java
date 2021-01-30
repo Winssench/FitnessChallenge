@@ -215,7 +215,7 @@ public class Main {
 	@Path("/signup")
 	public Response subscriptionInTextPlain() {
 		// TODO: Get Request Parameters
-		return Response.ok("adding").build();
+		return Response.ok("subscribed").build();
 	}
 
 	@POST
@@ -224,7 +224,7 @@ public class Main {
 	@Path("/signup")
 	public Response subscriptionInXML() {
 		// TODO: Get Request Parameters
-		return Response.ok("adding").build();
+		return Response.ok("subscribed").build();
 	}
 
 	@POST
@@ -233,7 +233,34 @@ public class Main {
 	@Path("/signup")
 	public Response subscriptionInJSON() {
 		// TODO: Get Request Parameters
-		return Response.ok("adding").build();
+		return Response.ok("subscribed").build();
+	}
+
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/signin")
+	public Response connectionInTextPlain() {
+		// TODO : Get Request Parameters
+		return Response.ok("connected").build();
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/signin")
+	public Response connectionInXML() {
+		// TODO : Get Request Parameters
+		return Response.ok("connected").build();
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signin")
+	public Response connectionInJSON() {
+		// TODO: Get Request Parameters
+		return Response.ok("connected").build();
 	}
 
 }
