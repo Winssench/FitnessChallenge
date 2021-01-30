@@ -326,8 +326,6 @@ public class Main {
 					.add("success",
 							Json.createObjectBuilder()
 									.add("message", "user has been created")
-									.add("username", username)
-									.add("password", password)
 									.add("code", "200")
 									.build()
 					)
