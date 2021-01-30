@@ -38,7 +38,7 @@ import java.util.Optional;
 
 public enum ObstacleType {
 
-    PHYSICAL("Physical Task"),
+    PHYSICAL("Physical"),
     ENIGMA("Enigma");
 
     private final String name;
@@ -53,7 +53,7 @@ public enum ObstacleType {
 
     public static Optional<ObstacleType> find(String name) {
         return Arrays.stream(values())
-                .filter(type -> type.name.equals(name))
+                .filter(type -> type.name.equalsIgnoreCase(name))
                 .findFirst();
     }
 

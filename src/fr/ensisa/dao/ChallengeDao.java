@@ -37,7 +37,7 @@ import fr.ensisa.model.Challenge;
 import fr.ensisa.res.GamingMode;
 import java.util.*;
 
-public class ChallengeDao implements Dao<Challenge> {
+public class ChallengeDao implements Dao<Challenge, String> {
 
     private final Map<Long, Challenge> store = Collections.synchronizedMap(new TreeMap<Long, Challenge>());
 
@@ -73,5 +73,11 @@ public class ChallengeDao implements Dao<Challenge> {
     public long count() {
         return store.size();
     }
+
+    @Override
+    public boolean contains(String[] v) {
+        return false;
+    }
+
 
 }

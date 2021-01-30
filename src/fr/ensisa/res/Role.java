@@ -54,7 +54,7 @@ public enum Role {
 
     public static Optional<Role> find(String name) {
         return Arrays.stream(values())
-                .filter(role -> role.name.equals(name))
+                .filter(role -> role.name.equalsIgnoreCase(name))
                 .findFirst();
     }
 

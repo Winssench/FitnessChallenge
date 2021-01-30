@@ -36,7 +36,7 @@ package fr.ensisa.dao;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface Dao<T> {
+public interface Dao<T, V> {
 
     Optional<T> find(long id);
     Collection<T> findAll();
@@ -44,5 +44,6 @@ public interface Dao<T> {
     void update(T t, String[] params);
     void remove(T t);
     long count();
+    boolean contains(V[] v);
 
 }

@@ -38,8 +38,8 @@ import java.util.Optional;
 
 public enum GamingMode {
 
-    SOLO("solo"),
-    TEAM("team");
+    SOLO("Solo"),
+    TEAM("Team");
 
     private final String name;
 
@@ -53,7 +53,7 @@ public enum GamingMode {
 
     public static Optional<GamingMode> find(String name) {
         return Arrays.stream(values())
-                .filter(mode -> mode.name.equals(name))
+                .filter(mode -> mode.name.equalsIgnoreCase(name))
                 .findFirst();
     }
 

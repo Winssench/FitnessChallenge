@@ -66,10 +66,17 @@ public class Main {
 	public Response getChallengesInPlainText() {
 		// Check if there is no challenge in the DAO
 		if (challengeFactory.getDao().count() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).entity("ko").build();
+			String entity = "{error{reason='no challenges'" +
+					", message='Not Found'}" +
+					", code='404'}";
+			return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
 		}
 		else {
-			return Response.ok("ok").build();
+			StringBuilder entity = new StringBuilder();
+			for (Challenge c : challengeFactory.getDao().findAll()) {
+				entity.append(c.toString());
+			}
+			return Response.ok(entity.toString()).build();
 		}
 	}
 
@@ -161,24 +168,6 @@ public class Main {
 	}
 
 	/**
-	 * @brief		This method is called if TEXT_HTML is request
-	 * @return		TEXT_HTML
-	 */
-	@GET
-	@Consumes(MediaType.TEXT_HTML)
-	@Produces(MediaType.TEXT_HTML)
-	@Path("/")
-	public Response getChallengesInHTML() {
-		// Check if there is no challenge in the DAO
-		if (challengeFactory.getDao().count() == 0) {
-			return Response.status(Response.Status.NOT_FOUND).entity("").build();
-		}
-		else {
-			return Response.ok("").build();
-		}
-	}
-
-	/**
 	 * @brief		This method is called if APPLICATION_JSON is request
 	 * @return
 	 */
@@ -218,6 +207,33 @@ public class Main {
 			}
 			return Response.ok(array.build().toString()).build();
 		}
+	}
+
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/signup")
+	public Response subscriptionInTextPlain() {
+		// TODO: Get Request Parameters
+		return Response.ok("adding").build();
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/signup")
+	public Response subscriptionInXML() {
+		// TODO: Get Request Parameters
+		return Response.ok("adding").build();
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/signup")
+	public Response subscriptionInJSON() {
+		// TODO: Get Request Parameters
+		return Response.ok("adding").build();
 	}
 
 }
