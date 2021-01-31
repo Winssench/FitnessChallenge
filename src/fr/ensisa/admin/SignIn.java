@@ -55,9 +55,10 @@ public class SignIn {
         // Check if query parameters is not empty
         if (token == null || token.isEmpty()) {
             // Define entity
-            String entity = "{error{reason='null query parameter'" +
+            String entity = "{error{reason='null token'" +
                     ", message='Unauthorized'}" +
                     ", code='401'}";
+
             return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
         }
         else {
@@ -90,7 +91,7 @@ public class SignIn {
 
             // Creates reason element
             Element reason = doc.createElement("reason");
-            reason.appendChild(doc.createTextNode("null query parameter"));
+            reason.appendChild(doc.createTextNode("null token"));
             error.appendChild(reason);
 
             // Creates message element
@@ -122,7 +123,7 @@ public class SignIn {
             JsonObject value = Json.createObjectBuilder()
                     .add("error",
                             Json.createObjectBuilder()
-                                    .add("reason", "null query parameter")
+                                    .add("reason", "null token")
                                     .add("message", "Unauthorized")
                                     .build()
                     )

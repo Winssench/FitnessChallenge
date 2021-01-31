@@ -67,14 +67,17 @@ public class Open {
 			String entity = "{error{reason='no challenges'" +
 					", message='Not Found'}" +
 					", code='404'}";
+
 			return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
 		}
 		else {
 			// Define entity
 			StringBuilder entity = new StringBuilder();
+
 			for (Challenge c : challengeFactory.getDao().findAll()) {
 				entity.append(c.toString());
 			}
+
 			return Response.ok(entity.toString()).build();
 		}
 	}
@@ -185,11 +188,13 @@ public class Open {
 					)
 					.add("code", "404")
 					.build();
+
 			return Response.status(Response.Status.NOT_FOUND).entity(value.toString()).build();
 		}
 		else {
 			// Create a JSON array Builder
 			JsonArrayBuilder array = Json.createArrayBuilder();
+
 			for (Challenge c : challengeFactory.getDao().findAll()) {
 				// Creates a JsonObject Builder
 				array.add(
@@ -202,6 +207,7 @@ public class Open {
 						.build()
 				);
 			}
+
 			return Response.ok(array.build().toString()).build();
 		}
 	}

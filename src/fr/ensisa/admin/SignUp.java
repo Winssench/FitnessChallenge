@@ -62,6 +62,7 @@ public class SignUp {
             String entity = "{error{reason='null query parameters'" +
                     ", message='Unauthorized'}" +
                     ", code='401'}";
+
             return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
         }
         else {
@@ -71,6 +72,7 @@ public class SignUp {
                 String entity = "{error{reason='user already exists'" +
                         ", message='Conflict'}" +
                         ", code='409'}";
+
                 return Response.status(Response.Status.CONFLICT).entity(entity).build();
             }
             else {
@@ -81,6 +83,7 @@ public class SignUp {
                 String entity = "{success{message='user has been created'" +
                         ", token=''" +
                         ", code='200'}}";
+
                 return Response.ok(entity).build();
             }
         }
