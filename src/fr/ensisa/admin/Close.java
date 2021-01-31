@@ -345,7 +345,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (challengeFactory.getDao().find(id).isPresent()) {
+                if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Define entity
                     String entity = "{error{reason='challenge does not exists'" +
                             ", message='Not Found'}" +
@@ -436,7 +436,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (challengeFactory.getDao().find(id).isPresent()) {
+                if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");
                     doc.appendChild(root);
@@ -522,7 +522,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (challengeFactory.getDao().find(id).isPresent()) {
+                if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates a JsonObject Builder
                     JsonObject value = Json.createObjectBuilder()
                             .add("error",
