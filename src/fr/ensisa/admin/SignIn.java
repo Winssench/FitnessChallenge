@@ -63,6 +63,7 @@ public class SignIn {
         }
         else {
             // TODO : Check if token is authorized
+
             return Response.ok("connected").build();
         }
     }
@@ -109,6 +110,7 @@ public class SignIn {
         }
         else {
             // TODO : Check if token is authorized
+
             return Response.ok("connected").build();
         }
     }
@@ -134,6 +136,7 @@ public class SignIn {
         }
         else {
             // TODO : Check if token is authorized
+
             return Response.ok("connected").build();
         }
     }

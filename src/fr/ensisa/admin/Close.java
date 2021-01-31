@@ -67,6 +67,8 @@ public class Close {
             return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
         }
         else {
+            // TODO : Check if token is authorized
+
             if ((name == null && author == null && mode == null) || (name.isEmpty() && author.isEmpty() && mode.isEmpty())) {
                 // Define entity
                 String entity = "{error{reason='null query parameters'" +
@@ -129,6 +131,8 @@ public class Close {
             return Response.status(Response.Status.UNAUTHORIZED).entity(Parser.XML(doc)).build();
         }
         else {
+            // TODO : Check if token is authorized
+
             if ((name == null && author == null && mode == null) || (name.isEmpty() && author.isEmpty() && mode.isEmpty())) {
                 // Creates root element
                 Element root = doc.createElement("errors");
@@ -198,6 +202,8 @@ public class Close {
             return Response.status(Response.Status.UNAUTHORIZED).entity(value.toString()).build();
         }
         else {
+            // TODO : Check if token is authorized
+
             if ((name == null && author == null && mode == null) || (name.isEmpty() && author.isEmpty() && mode.isEmpty())) {
                 // Creates a JsonObject Builder
                 JsonObject value = Json.createObjectBuilder()
@@ -246,6 +252,7 @@ public class Close {
         }
         else {
             // TODO : Check if token is authorized
+
             return Response.ok("updated").build();
         }
     }
@@ -292,6 +299,7 @@ public class Close {
         }
         else {
             // TODO : Check if token is authorized
+
             return Response.ok("updated").build();
         }
     }
@@ -317,6 +325,7 @@ public class Close {
         }
         else {
             // TODO : Check if token is authorized
+
             return Response.ok("updated").build();
         }
     }
@@ -335,6 +344,8 @@ public class Close {
             return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
         }
         else {
+            // TODO : Check if token is authorized
+
             if (id == 0) {
                 // Define entity
                 String entity = "{error{reason='null id'" +
@@ -408,6 +419,8 @@ public class Close {
             return Response.status(Response.Status.UNAUTHORIZED).entity(Parser.XML(doc)).build();
         }
         else {
+            // TODO : Check if token is authorized
+
             if (id == 0) {
                 // Creates root element
                 Element root = doc.createElement("errors");
@@ -506,6 +519,8 @@ public class Close {
             return Response.status(Response.Status.UNAUTHORIZED).entity(value.toString()).build();
         }
         else {
+            // TODO : Check if token is authorized
+
             if (id == 0) {
                 // Creates a JsonObject Builder
                 JsonObject value = Json.createObjectBuilder()
