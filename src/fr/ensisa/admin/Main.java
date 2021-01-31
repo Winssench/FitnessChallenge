@@ -405,17 +405,65 @@ public class Main {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/signin")
 	public Response connectionInTextPlain(@QueryParam("token") String token) {
-		// TODO : Get Request Parameters
-		return Response.ok("connected").build();
+		// Check if query parameters is not empty
+		if (token == null || token.isEmpty()) {
+			// Define entity
+			String entity = "{error{reason='null query parameter'" +
+					", message='Unauthorized'}" +
+					", code='401'}";
+			return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
+		}
+		else {
+			// TODO : Get Request Parameters
+			return Response.ok("connected").build();
+		}
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	@Path("/signin")
-	public Response connectionInXML(@QueryParam("token") String token) {
-		// TODO : Get Request Parameters
-		return Response.ok("connected").build();
+	public Response connectionInXML(@QueryParam("token") String token) throws ParserConfigurationException {
+		// Define a factory to produce DOM object trees from XML Documents
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+		// Creates a builder
+		DocumentBuilder builder = factory.newDocumentBuilder();
+
+		// Creates a document
+		Document doc = builder.newDocument();
+
+		// Check if query parameters is not empty
+		if (token == null || token.isEmpty()) {
+			// Creates root element
+			Element root = doc.createElement("errors");
+			doc.appendChild(root);
+
+			// Creates error element
+			Element error = doc.createElement("error");
+
+			// Creates reason element
+			Element reason = doc.createElement("reason");
+			reason.appendChild(doc.createTextNode("null query parameter"));
+			error.appendChild(reason);
+
+			// Creates message element
+			Element message = doc.createElement("message");
+			message.appendChild(doc.createTextNode("Unauthorized"));
+			error.appendChild(message);
+
+			// Creates code element
+			Element code = doc.createElement("code");
+			code.appendChild(doc.createTextNode("401"));
+			root.appendChild(error);
+			root.appendChild(code);
+
+			return Response.status(Response.Status.UNAUTHORIZED).entity(Parser.XML(doc)).build();
+		}
+		else {
+			// TODO : Get Request Parameters
+			return Response.ok("connected").build();
+		}
 	}
 
 	@POST
@@ -423,8 +471,25 @@ public class Main {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/signin")
 	public Response connectionInJSON(@QueryParam("token") String token) {
-		// TODO: Get Request Parameters
-		return Response.ok("connected").build();
+		// Check if query parameters is not empty
+		if (token == null || token.isEmpty()) {
+			// Creates a JsonObject Builder
+			JsonObject value = Json.createObjectBuilder()
+					.add("error",
+							Json.createObjectBuilder()
+									.add("reason", "null query parameter")
+									.add("message", "Unauthorized")
+									.build()
+					)
+					.add("code", "401")
+					.build();
+
+			return Response.status(Response.Status.UNAUTHORIZED).entity(value.toString()).build();
+		}
+		else {
+			// TODO: Get Request Parameters
+			return Response.ok("connected").build();
+		}
 	}
 
 }
