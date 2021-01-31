@@ -46,7 +46,7 @@ public class Close {
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response addChallengeInPlainText() {
+    public Response addChallengeInPlainText(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("added").build();
     }
@@ -54,7 +54,7 @@ public class Close {
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response addChallengeInXML() {
+    public Response addChallengeInXML(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("added").build();
     }
@@ -62,7 +62,7 @@ public class Close {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addChallengeInJSON() {
+    public Response addChallengeInJSON(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("added").build();
     }
@@ -70,7 +70,7 @@ public class Close {
     @PUT
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response setChallengeInPlainText() {
+    public Response setChallengeInPlainText(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("set").build();
     }
@@ -78,7 +78,7 @@ public class Close {
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response setChallengeInXML() {
+    public Response setChallengeInXML(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("set").build();
     }
@@ -86,7 +86,7 @@ public class Close {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response setChallengeInJSON() {
+    public Response setChallengeInJSON(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("set").build();
     }
@@ -94,7 +94,7 @@ public class Close {
     @DELETE
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response deleteChallengeInTextPlain() {
+    public Response deleteChallengeInTextPlain(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("deleted").build();
     }
@@ -102,7 +102,7 @@ public class Close {
     @DELETE
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response deleteChallengeInXML() {
+    public Response deleteChallengeInXML(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("deleted").build();
     }
@@ -110,7 +110,7 @@ public class Close {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteChallengeInJSON() {
+    public Response deleteChallengeInJSON(@QueryParam("token") String token) {
         // TODO : Check if token is authorized
         return Response.ok("deleted").build();
     }
