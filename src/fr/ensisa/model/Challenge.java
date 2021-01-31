@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -67,13 +68,28 @@ public class Challenge {
     private User owner;
     
     
+    
+    @OneToMany(
+    		mappedBy = "challengeOwner" ,
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+    		)
+    private List<Segment> trip;
+    
+    
 
-    public User getOwnerId() {	return owner;	}
+    public User getOwner() {
+		return owner;
+	}
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+	public User getOwnerId() {	return owner;	}
 	public void setOwnerId(User owner) {this.owner = owner;}
 
 	private String name;
     private int maxUsers;
-    private List<Segment> trip;
+  
     private GamingMode mode;
 
     public Challenge(String name, int maxUsers, GamingMode mode, User owner) {

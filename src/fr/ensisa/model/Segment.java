@@ -38,8 +38,10 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -69,6 +71,10 @@ public class Segment {
     		)
     private List<CrossingPoint> crossingPoints;
     
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Challenge challengeOwner;   
+    
     @OneToMany(
 			mappedBy = "segmentOwner" ,
 			cascade = CascadeType.ALL,
@@ -77,7 +83,30 @@ public class Segment {
     private List<Obstacle> obstacles;
     
     
-    private float distance;
+    public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public List<CrossingPoint> getCrossingPoints() {
+		return crossingPoints;
+	}
+
+	public void setCrossingPoints(List<CrossingPoint> crossingPoints) {
+		this.crossingPoints = crossingPoints;
+	}
+
+	public Challenge getChallengeOwner() {
+		return challengeOwner;
+	}
+
+	public void setChallengeOwner(Challenge challengeOwner) {
+		this.challengeOwner = challengeOwner;
+	}
+	private float distance;
 
     public Segment( float distance) {
         this.obstacles = new ArrayList<>();

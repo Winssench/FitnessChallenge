@@ -54,7 +54,23 @@ public class CrossingPoint {
     private String name;
     private float score;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Segment getSegmentOwner() {
+		return segmentOwner;
+	}
+
+	public void setSegmentOwner(Segment segmentOwner) {
+		this.segmentOwner = segmentOwner;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Segment segmentOwner; 
     
     public CrossingPoint()
