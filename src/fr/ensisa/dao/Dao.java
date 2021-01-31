@@ -41,7 +41,7 @@ public interface Dao<T, V> {
     Optional<T> find(long id);
     Collection<T> findAll();
     void persist(T t);
-    void update(T t, String[] params);
+    void update(T t, V[] params);
     void remove(T t);
     long count();
     boolean contains(V[] v);

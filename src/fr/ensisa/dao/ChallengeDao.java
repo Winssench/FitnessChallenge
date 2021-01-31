@@ -59,8 +59,9 @@ public class ChallengeDao implements Dao<Challenge, String> {
     @Override
     public void update(Challenge challenge, String[] params) {
         challenge.setName(Objects.requireNonNull(params[0], "A challenge must have a name"));
-        challenge.setMaxUsers(Objects.requireNonNull(Integer.valueOf(params[0]), "A challenge must have a maximum number of users"));
-        challenge.setMode(Objects.requireNonNull(GamingMode.find(params[0]).get(), "A challenge must have a gaming mode"));
+        challenge.setAuthor(Objects.requireNonNull(params[1], "A challenge must have an author"));
+        challenge.setMaxUsers(Objects.requireNonNull(Integer.valueOf(params[2]), "A challenge must have a maximum number of users"));
+        challenge.setMode(Objects.requireNonNull(GamingMode.find(params[3]).get(), "A challenge must have a gaming mode"));
         store.put(challenge.getId(), challenge);
     }
 

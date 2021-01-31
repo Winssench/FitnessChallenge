@@ -240,7 +240,7 @@ public class Close {
     @PUT
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    public Response updateChallengeInPlainText(@QueryParam("token") String token) {
+    public Response updateChallengeInPlainText(@QueryParam("token") String token, @QueryParam("id") int id, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) {
         // Check if query parameters is not empty
         if (token == null || token.isEmpty()) {
             // Define entity
@@ -253,14 +253,53 @@ public class Close {
         else {
             // TODO : Check if token is authorized
 
-            return Response.ok("updated").build();
+            if (id == 0) {
+                // Define entity
+                String entity = "{error{reason='null id'" +
+                        ", message='Bad Request'}" +
+                        ", code='400'}";
+
+                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
+            }
+            else {
+                // Check if challenge exists in the database
+                if (!challengeFactory.getDao().find(id).isPresent()) {
+                    // Define entity
+                    String entity = "{error{reason='challenge does not exists'" +
+                            ", message='Not Found'}" +
+                            ", code='404'}";
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
+                }
+                else {
+                    // Check if query parameters is null
+                    if ((name == null && author == null) || (name.isEmpty() && author.isEmpty())) {
+                        // Define entity
+                        String entity = "{error{reason='null query parameters'" +
+                                ", message='Bad Request'}" +
+                                ", code='400'}";
+
+                        return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
+                    }
+                    else {
+                        // Update challenge assets in the database
+                        challengeFactory.getDao().update(challengeFactory.getDao().find(id).get(), new String[]{name, author, String.valueOf(maxUsers), mode});
+
+                        // Define entity
+                        String entity = "{success{message='challenge has been updated'" +
+                                ", code='200'}}";
+
+                        return Response.ok(entity).build();
+                    }
+                }
+            }
         }
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response updateChallengeInXML(@QueryParam("token") String token) throws ParserConfigurationException {
+    public Response updateChallengeInXML(@QueryParam("token") String token, @QueryParam("id") int id, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) throws ParserConfigurationException {
         // Define a factory to produce DOM object trees from XML Documents
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -300,14 +339,117 @@ public class Close {
         else {
             // TODO : Check if token is authorized
 
-            return Response.ok("updated").build();
+            if (id == 0) {
+                // Creates root element
+                Element root = doc.createElement("errors");
+                doc.appendChild(root);
+
+                // Creates error element
+                Element error = doc.createElement("error");
+
+                // Creates reason element
+                Element reason = doc.createElement("reason");
+                reason.appendChild(doc.createTextNode("null id"));
+                error.appendChild(reason);
+
+                // Creates message element
+                Element message = doc.createElement("message");
+                message.appendChild(doc.createTextNode("Bad Request"));
+                error.appendChild(message);
+
+                // Creates code element
+                Element code = doc.createElement("code");
+                code.appendChild(doc.createTextNode("400"));
+                root.appendChild(error);
+                root.appendChild(code);
+
+                return Response.status(Response.Status.BAD_REQUEST).entity(Parser.XML(doc)).build();
+            }
+            else {
+                // Check if challenge exists in the database
+                if (!challengeFactory.getDao().find(id).isPresent()) {
+                    // Creates root element
+                    Element root = doc.createElement("errors");
+                    doc.appendChild(root);
+
+                    // Creates error element
+                    Element error = doc.createElement("error");
+
+                    // Creates reason element
+                    Element reason = doc.createElement("reason");
+                    reason.appendChild(doc.createTextNode("challenge does not exists"));
+                    error.appendChild(reason);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("Not Found"));
+                    error.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("404"));
+                    root.appendChild(error);
+                    root.appendChild(code);
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(Parser.XML(doc)).build();
+                }
+                else {
+                    // Check if query parameters is null
+                    if ((name == null && author == null) || (name.isEmpty() && author.isEmpty())) {
+                        // Creates root element
+                        Element root = doc.createElement("errors");
+                        doc.appendChild(root);
+
+                        // Creates error element
+                        Element error = doc.createElement("error");
+
+                        // Creates reason element
+                        Element reason = doc.createElement("reason");
+                        reason.appendChild(doc.createTextNode("null query parameters"));
+                        error.appendChild(reason);
+
+                        // Creates message element
+                        Element message = doc.createElement("message");
+                        message.appendChild(doc.createTextNode("Bad Request"));
+                        error.appendChild(message);
+
+                        // Creates code element
+                        Element code = doc.createElement("code");
+                        code.appendChild(doc.createTextNode("400"));
+                        root.appendChild(error);
+                        root.appendChild(code);
+
+                        return Response.status(Response.Status.BAD_REQUEST).entity(Parser.XML(doc)).build();
+                    }
+                    else {
+                        // Update challenge assets in the database
+                        challengeFactory.getDao().update(challengeFactory.getDao().find(id).get(), new String[]{name, author, String.valueOf(maxUsers), mode});
+
+                        // Creates root element
+                        Element root = doc.createElement("success");
+                        doc.appendChild(root);
+
+                        // Creates message element
+                        Element message = doc.createElement("message");
+                        message.appendChild(doc.createTextNode("challenge has been updated"));
+                        root.appendChild(message);
+
+                        // Creates code element
+                        Element code = doc.createElement("code");
+                        code.appendChild(doc.createTextNode("200"));
+                        root.appendChild(code);
+
+                        return Response.ok(Parser.XML(doc)).build();
+                    }
+                }
+            }
         }
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateChallengeInJSON(@QueryParam("token") String token) {
+    public Response updateChallengeInJSON(@QueryParam("token") String token, @QueryParam("id") int id, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) {
         // Check if query parameters is not empty
         if (token == null || token.isEmpty()) {
             // Creates a JsonObject Builder
@@ -326,7 +468,70 @@ public class Close {
         else {
             // TODO : Check if token is authorized
 
-            return Response.ok("updated").build();
+            if (id == 0) {
+                // Creates a JsonObject Builder
+                JsonObject value = Json.createObjectBuilder()
+                        .add("error",
+                                Json.createObjectBuilder()
+                                        .add("reason", "null id")
+                                        .add("message", "Bad Request")
+                                        .build()
+                        )
+                        .add("code", "400")
+                        .build();
+
+                return Response.status(Response.Status.BAD_REQUEST).entity(value.toString()).build();
+            }
+            else {
+                // Check if challenge exists in the database
+                if (!challengeFactory.getDao().find(id).isPresent()) {
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("error",
+                                    Json.createObjectBuilder()
+                                            .add("reason", "challenge does not exists")
+                                            .add("message", "Not Found")
+                                            .build()
+                            )
+                            .add("code", "404")
+                            .build();
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(value.toString()).build();
+                }
+                else {
+                    // Check if query parameters is null
+                    if ((name == null && author == null) || (name.isEmpty() && author.isEmpty())) {
+                        // Creates a JsonObject Builder
+                        JsonObject value = Json.createObjectBuilder()
+                                .add("error",
+                                        Json.createObjectBuilder()
+                                                .add("reason", "null query parameters")
+                                                .add("message", "Bad Request")
+                                                .build()
+                                )
+                                .add("code", "400")
+                                .build();
+
+                        return Response.status(Response.Status.BAD_REQUEST).entity(value.toString()).build();
+                    }
+                    else {
+                        // Update challenge assets in the database
+                        challengeFactory.getDao().update(challengeFactory.getDao().find(id).get(), new String[]{name, author, String.valueOf(maxUsers), mode});
+
+                        // Creates a JsonObject Builder
+                        JsonObject value = Json.createObjectBuilder()
+                                .add("success",
+                                        Json.createObjectBuilder()
+                                                .add("message", "challenge has been updated")
+                                                .add("code", "200")
+                                                .build()
+                                )
+                                .build();
+
+                        return Response.ok(value.toString()).build();
+                    }
+                }
+            }
         }
     }
 
