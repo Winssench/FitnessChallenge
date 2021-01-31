@@ -414,7 +414,7 @@ public class Main {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
 		}
 		else {
-			// TODO : Get Request Parameters
+			// TODO : Check if token is authorized
 			return Response.ok("connected").build();
 		}
 	}
@@ -461,7 +461,7 @@ public class Main {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(Parser.XML(doc)).build();
 		}
 		else {
-			// TODO : Get Request Parameters
+			// TODO : Check if token is authorized
 			return Response.ok("connected").build();
 		}
 	}
@@ -487,7 +487,7 @@ public class Main {
 			return Response.status(Response.Status.UNAUTHORIZED).entity(value.toString()).build();
 		}
 		else {
-			// TODO: Get Request Parameters
+			// TODO : Check if token is authorized
 			return Response.ok("connected").build();
 		}
 	}
