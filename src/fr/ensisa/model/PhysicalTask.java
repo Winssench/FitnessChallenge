@@ -18,6 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 /**
  *		@file            	PhysicalTask.java
  *      @details
@@ -35,6 +38,9 @@ package fr.ensisa.model;
  */
 import fr.ensisa.res.ObstacleType;
 
+
+@Entity(name = "PhysicalTask")
+@DiscriminatorValue("PhysicalTask")
 public class PhysicalTask extends Obstacle {
 
     private boolean state;
@@ -43,6 +49,11 @@ public class PhysicalTask extends Obstacle {
         this.state = state;
         this.goal = goal;
         this.type = ObstacleType.PHYSICAL;
+    }
+    
+    public PhysicalTask()
+    {
+    	
     }
 
     public String getGoal() {

@@ -18,6 +18,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  *		@file            	CrossingPoint.java
  *      @details
@@ -34,10 +43,24 @@ package fr.ensisa.model;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 
+@Entity(name="CrossingPoint")
+@Table(name = "crossingPoint")
 public class CrossingPoint {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private String name;
     private float score;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+	private Segment segmentOwner; 
+    
+    public CrossingPoint()
+    {
+    	
+    }
 
     public CrossingPoint(String name, float score) {
         this.name = name;

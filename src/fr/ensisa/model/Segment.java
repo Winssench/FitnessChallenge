@@ -36,19 +36,53 @@ package fr.ensisa.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity(name ="Segment")
+@Table(name = "segment")
 public class Segment {
+	
+	
+	
+	public Segment()
+	{
+		
+	}
+	@Id
+    @GeneratedValue
+    private long id;
 
     private Segment next;
-    private CrossingPoint start;
-    private CrossingPoint end;
+    //private CrossingPoint start;
+    //private CrossingPoint end;
+    
+    @OneToMany(
+    		mappedBy = "segmentOwner" ,
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+    		)
+    private List<CrossingPoint> crossingPoints;
+    
+    @OneToMany(
+			mappedBy = "segmentOwner" ,
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+		)
     private List<Obstacle> obstacles;
+    
+    
     private float distance;
 
-    public Segment(CrossingPoint start, CrossingPoint end, float distance) {
+    public Segment( float distance) {
         this.obstacles = new ArrayList<>();
         this.next = null;
-        this.start = start;
-        this.end = end;
+       
         this.distance = distance;
     }
 
@@ -60,21 +94,7 @@ public class Segment {
         this.next = next;
     }
 
-    public CrossingPoint getStart() {
-        return start;
-    }
-
-    public void setStart(CrossingPoint start) {
-        this.start = start;
-    }
-
-    public CrossingPoint getEnd() {
-        return end;
-    }
-
-    public void setEnd(CrossingPoint end) {
-        this.end = end;
-    }
+   
 
     public float getDistance() {
         return distance;

@@ -18,6 +18,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+
 /**
  *		@file            	Obstacle.java
  *      @details
@@ -35,9 +46,19 @@ package fr.ensisa.model;
  */
 import fr.ensisa.res.ObstacleType;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Obstacle_Type")
 public abstract class Obstacle {
 
-    protected String goal;
-    protected ObstacleType type;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Segment segmentOwner;   
+	
+	protected String goal;
+	protected ObstacleType type;
 
 }

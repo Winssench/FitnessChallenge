@@ -18,6 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *		@file            	Enigma.java
  *      @details
@@ -35,8 +42,18 @@ package fr.ensisa.model;
  */
 import fr.ensisa.res.ObstacleType;
 
+@Entity(name = "Enigma")
+@DiscriminatorValue("Enigma")
 public class Enigma extends Obstacle {
 
+	
+	
+	
+	public Enigma()
+	{
+		
+	}
+	
     private String answer;
 
     public Enigma(String goal, String answer) {

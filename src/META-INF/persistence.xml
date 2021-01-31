@@ -4,6 +4,13 @@
 		<class>fr.ensisa.admin.Employee</class>
 		<class>fr.ensisa.model.User</class>
 		<class>fr.ensisa.model.Challenge</class>
+		<class>fr.ensisa.model.Segment</class>
+		
+		<class>fr.ensisa.model.Obstacle</class>
+		<class>fr.ensisa.model.Enigma</class>
+		<class>fr.ensisa.model.PhysicalTask</class>
+		<class>fr.ensisa.model.CrossingPoint</class>
+		
 		
 		 <properties>
 	         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/jpadb"/>
@@ -13,5 +20,7 @@
 	         <property name="eclipselink.logging.level" value="FINE"/>
 	         <property name="eclipselink.ddl-generation" value="create-tables"/>
          </properties>
+         
+         
 	</persistence-unit>
 </persistence>
