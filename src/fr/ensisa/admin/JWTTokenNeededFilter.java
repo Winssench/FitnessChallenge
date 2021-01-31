@@ -1,6 +1,7 @@
 package fr.ensisa.admin;
 
 import javax.annotation.Priority;
+import javax.ws.rs.NotAuthorizedException;
 import javax.crypto.KeyGenerator;
 import javax.inject.Inject;
 import javax.ws.rs.Priorities;
@@ -33,10 +34,12 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter{
 	    public void filter(ContainerRequestContext requestContext) throws IOException {
 	 
 	        // Get the HTTP Authorization header from the request
-	        String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-	 
+	        String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+	        
+			if (authHeader == null)
+				throw new NotAuthorizedException("Bearer");
 	        // Extract the token from the HTTP Authorization header
-	        String token = authorizationHeader.substring("Bearer".length()).trim();
+	        String token = authHeader.substring("Bearer".length()).trim();
 	 
 	        try {
 	 

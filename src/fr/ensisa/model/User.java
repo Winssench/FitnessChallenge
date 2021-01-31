@@ -18,10 +18,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import fr.ensisa.res.Role;
@@ -55,13 +60,33 @@ public class User {
     private String password;
     private Role role;
     
+    @OneToMany(
+    			mappedBy = "owner" ,
+    			cascade = CascadeType.ALL,
+    			orphanRemoval = true
+    		)
+    private List<Challenge> challenges = new ArrayList<Challenge>();
+    
 
-    public User(long id, String username, String password, Role role) {
+    public List<Challenge> getChallenges() {
+		return challenges;
+	}
+
+	public void setChallenges(List<Challenge> challenges) {
+		this.challenges = challenges;
+	}
+	
+	public void addChallenge(Challenge challenge) {
+		this.challenges.add(challenge);
+	}
+ 
+	public User(long id, String username, String password, Role role) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.role = role;
+		
 	}
 
 	public User(String username, String password) {

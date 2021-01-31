@@ -37,19 +37,52 @@ import fr.ensisa.res.GamingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Challenge {
+import javax.annotation.Generated;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+
+@Entity(name ="Challenge")
+@Table(name = "challenge")
+public class Challenge {
+	
+	
+	public Challenge()
+	{
+		
+	}
+
+	@Id
+    @GeneratedValue
     private long id;
-    private String name;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User owner;
+    
+    
+
+    public User getOwnerId() {	return owner;	}
+	public void setOwnerId(User owner) {this.owner = owner;}
+
+	private String name;
     private int maxUsers;
     private List<Segment> trip;
     private GamingMode mode;
 
-    public Challenge(String name, int maxUsers, GamingMode mode) {
+    public Challenge(String name, int maxUsers, GamingMode mode, User owner) {
         this.name = name;
         this.maxUsers = maxUsers;
         this.mode = mode;
         this.trip = new ArrayList<>();
+        this.owner = owner;
+        
     }
 
     public long getId() {

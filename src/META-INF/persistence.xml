@@ -3,6 +3,7 @@
 	<persistence-unit name="FitnessChalleng2021" transaction-type="RESOURCE_LOCAL">
 		<class>fr.ensisa.admin.Employee</class>
 		<class>fr.ensisa.model.User</class>
+		<class>fr.ensisa.model.Challenge</class>
 		
 		 <properties>
 	         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/jpadb"/>
