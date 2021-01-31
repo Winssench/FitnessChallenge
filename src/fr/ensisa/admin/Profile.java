@@ -34,6 +34,7 @@ package fr.ensisa.admin;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.factory.UserFactory;
+import fr.ensisa.model.User;
 import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -76,7 +77,26 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Define entity
+                    String entity = "{error{reason='user does not exists'" +
+                            ", message='Not Found'}" +
+                            ", code='404'}";
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
+                }
+                else {
+                    // Get user profile information
+                    User user = userFactory.getDao().find(id).get();
+
+                    // Define entity
+                    String entity = "{success{username='" + user.getUsername() + "'" +
+                            ", role='" + user.getRole().getName() + "'" +
+                            ", code='200'}}";
+
+                    return Response.ok(entity).build();
+                }
             }
         }
     }
@@ -151,7 +171,58 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(Parser.XML(doc)).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Creates root element
+                    Element root = doc.createElement("errors");
+                    doc.appendChild(root);
+
+                    // Creates error element
+                    Element error = doc.createElement("error");
+
+                    // Creates reason element
+                    Element reason = doc.createElement("reason");
+                    reason.appendChild(doc.createTextNode("user does not exists"));
+                    error.appendChild(reason);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("Not Found"));
+                    error.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("404"));
+                    root.appendChild(error);
+                    root.appendChild(code);
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(Parser.XML(doc)).build();
+                }
+                else {
+                    // Get user profile information
+                    User user = userFactory.getDao().find(id).get();
+
+                    // Creates root element
+                    Element root = doc.createElement("success");
+                    doc.appendChild(root);
+
+                    // Creates username element
+                    Element username = doc.createElement("username");
+                    username.appendChild(doc.createTextNode(user.getUsername()));
+                    root.appendChild(username);
+
+                    // Creates role element
+                    Element role = doc.createElement("role");
+                    role.appendChild(doc.createTextNode(user.getRole().getName()));
+                    root.appendChild(role);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("200"));
+                    root.appendChild(code);
+
+                    return Response.ok(Parser.XML(doc)).build();
+                }
             }
         }
     }
@@ -193,7 +264,38 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(value.toString()).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("error",
+                                    Json.createObjectBuilder()
+                                            .add("reason", "user does not exists")
+                                            .add("message", "Not Found")
+                                            .build()
+                            )
+                            .add("code", "404")
+                            .build();
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(value.toString()).build();
+                }
+                else {
+                    // Get user profile information
+                    User user = userFactory.getDao().find(id).get();
+
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("success",
+                                    Json.createObjectBuilder()
+                                            .add("username", user.getUsername())
+                                            .add("role", user.getRole().getName())
+                                            .add("code", "200")
+                                            .build()
+                            )
+                            .build();
+
+                    return Response.ok(value.toString()).build();
+                }
             }
         }
     }
@@ -223,7 +325,18 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Define entity
+                    String entity = "{error{reason='user does not exists'" +
+                            ", message='Not Found'}" +
+                            ", code='404'}";
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
+                }
+                else {
+                    return null;
+                }
             }
         }
     }
@@ -298,7 +411,36 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(Parser.XML(doc)).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Creates root element
+                    Element root = doc.createElement("errors");
+                    doc.appendChild(root);
+
+                    // Creates error element
+                    Element error = doc.createElement("error");
+
+                    // Creates reason element
+                    Element reason = doc.createElement("reason");
+                    reason.appendChild(doc.createTextNode("user does not exists"));
+                    error.appendChild(reason);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("Not Found"));
+                    error.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("404"));
+                    root.appendChild(error);
+                    root.appendChild(code);
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(Parser.XML(doc)).build();
+                }
+                else {
+                    return null;
+                }
             }
         }
     }
@@ -340,7 +482,24 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(value.toString()).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("error",
+                                    Json.createObjectBuilder()
+                                            .add("reason", "user does not exists")
+                                            .add("message", "Not Found")
+                                            .build()
+                            )
+                            .add("code", "404")
+                            .build();
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(value.toString()).build();
+                }
+                else {
+                    return null;
+                }
             }
         }
     }
@@ -370,7 +529,25 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Define entity
+                    String entity = "{error{reason='user does not exists'" +
+                            ", message='Not Found'}" +
+                            ", code='404'}";
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
+                }
+                else {
+                    // Delete existing user from the database
+                    userFactory.getDao().remove(userFactory.getDao().find(id).get());
+
+                    // Define entity
+                    String entity = "{success{message='user account has been deleted'" +
+                            ", code='200'}}";
+
+                    return Response.ok(entity).build();
+                }
             }
         }
     }
@@ -445,7 +622,53 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(Parser.XML(doc)).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Creates root element
+                    Element root = doc.createElement("errors");
+                    doc.appendChild(root);
+
+                    // Creates error element
+                    Element error = doc.createElement("error");
+
+                    // Creates reason element
+                    Element reason = doc.createElement("reason");
+                    reason.appendChild(doc.createTextNode("user does not exists"));
+                    error.appendChild(reason);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("Not Found"));
+                    error.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("404"));
+                    root.appendChild(error);
+                    root.appendChild(code);
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(Parser.XML(doc)).build();
+                }
+                else {
+                    // Delete existing user from the database
+                    userFactory.getDao().remove(userFactory.getDao().find(id).get());
+
+                    // Creates root element
+                    Element root = doc.createElement("success");
+                    doc.appendChild(root);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("user account has been deleted"));
+                    root.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("200"));
+                    root.appendChild(code);
+
+                    return Response.ok(Parser.XML(doc)).build();
+                }
             }
         }
     }
@@ -487,7 +710,37 @@ public class Profile {
                 return Response.status(Response.Status.BAD_REQUEST).entity(value.toString()).build();
             }
             else {
-                return null;
+                // Check if user exists in the database
+                if (!userFactory.getDao().find(id).isPresent()) {
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("error",
+                                    Json.createObjectBuilder()
+                                            .add("reason", "user does not exists")
+                                            .add("message", "Not Found")
+                                            .build()
+                            )
+                            .add("code", "404")
+                            .build();
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(value.toString()).build();
+                }
+                else {
+                    // Delete existing user from the database
+                    userFactory.getDao().remove(userFactory.getDao().find(id).get());
+
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("success",
+                                    Json.createObjectBuilder()
+                                            .add("message", "user account has been deleted")
+                                            .add("code", "200")
+                                            .build()
+                            )
+                            .build();
+
+                    return Response.ok(value.toString()).build();
+                }
             }
         }
     }
