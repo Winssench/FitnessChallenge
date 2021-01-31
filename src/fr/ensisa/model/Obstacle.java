@@ -59,6 +59,12 @@ public abstract class Obstacle {
 	private Segment segmentOwner;   
 	
 	protected String goal;
+	public Segment getSegmentOwner() {
+		return segmentOwner;
+	}
+	public void setSegmentOwner(Segment segmentOwner) {
+		this.segmentOwner = segmentOwner;
+	}
 	protected ObstacleType type;
 
 }

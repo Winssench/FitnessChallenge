@@ -1,7 +1,9 @@
 package fr.ensisa.admin;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,6 +11,10 @@ import javax.persistence.Persistence;
 
 import fr.ensisa.dao.UserDao;
 import fr.ensisa.model.Challenge;
+import fr.ensisa.model.CrossingPoint;
+import fr.ensisa.model.Enigma;
+import fr.ensisa.model.Obstacle;
+import fr.ensisa.model.Segment;
 import fr.ensisa.model.User;
 import fr.ensisa.res.GamingMode;
 import fr.ensisa.res.Role;
@@ -18,12 +24,73 @@ public class CreateEmployee {
 	public static void main(String[] args) {
 
 		User user = new User();
-		user.setId(3);
-		user.setUsername("user3");
+		user.setId(6);
+		user.setUsername("winssench");
 		user.setPassword("opopok");
 		user.setRole(Role.ADMINISTRATOR);
-
-		user.addChallenge(new Challenge("courir 10km", 12, GamingMode.SOLO, user));
+		
+		
+		Challenge challengeComposed = new Challenge("dancer", 12, GamingMode.SOLO, user);
+		
+		//Segment
+		Segment segA = new Segment();
+		segA.setChallengeOwner(challengeComposed);
+		//crossingPoints
+		CrossingPoint a = new CrossingPoint();
+		a.setName("A");
+		a.setScore(0);
+		a.setSegmentOwner(segA);
+		CrossingPoint b = new CrossingPoint();
+		b.setName("B");
+		b.setScore(10);
+		b.setSegmentOwner(segA);
+		List<CrossingPoint> listcross = new ArrayList<CrossingPoint>();
+		listcross.add(a);
+		listcross.add(b);
+		
+		segA.setCrossingPoints(listcross);
+		
+		//
+		Obstacle obsTest = new Enigma("hello", "this is a test");
+		obsTest.setSegmentOwner(segA);
+		List<Obstacle> listObs = new ArrayList<Obstacle>();
+		listObs.add(obsTest);
+		segA.setObstacles(listObs);
+		
+		
+		//Segment
+		Segment segB = new Segment();
+		segB.setChallengeOwner(challengeComposed);
+		//crossingPoints
+		CrossingPoint c = new CrossingPoint();
+		c.setName("C");
+		c.setScore(0);
+		c.setSegmentOwner(segB);
+		CrossingPoint d = new CrossingPoint();
+		d.setName("D");
+		d.setScore(10);
+		d.setSegmentOwner(segB);
+		List<CrossingPoint> listcrossSecond = new ArrayList<CrossingPoint>();
+		listcross.add(c);
+		listcross.add(d);
+		
+		segB.setCrossingPoints(listcrossSecond);
+		
+		//
+		Obstacle obsTestSec = new Enigma("hello2", "this is a test2");
+		obsTestSec.setSegmentOwner(segB);
+		List<Obstacle> listObsSec = new ArrayList<Obstacle>();
+		listObsSec.add(obsTestSec);
+		segB.setObstacles(listObsSec);
+		segB.setChallengeOwner(challengeComposed);
+		
+		//somme of segA and B
+		List<Segment> route = new ArrayList<Segment>();
+		route.add(segA);
+		route.add(segB);
+		
+		challengeComposed.setTrip(route);
+		user.addChallenge(challengeComposed);
 
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("FitnessChalleng2021");
 
