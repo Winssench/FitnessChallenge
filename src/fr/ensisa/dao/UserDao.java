@@ -104,6 +104,8 @@ public class UserDao implements Dao<User> {
     	entitymanager.close();
      	emfactory.close();
     }
+    
+    
 
     @Override
     public long count() {
