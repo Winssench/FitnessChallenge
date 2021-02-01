@@ -25,16 +25,15 @@ public class CreateEmployee {
 
 		User user = new User();
 		user.setId(6);
-		user.setUsername("winssench");
+		user.setUsername("winssench1");
 		user.setPassword("opopok");
 		user.setRole(Role.ADMINISTRATOR);
 		
 		
-		Challenge challengeComposed = new Challenge("dancer", 12, GamingMode.SOLO, user);
+		Challenge chall = new Challenge("sauter", 12, GamingMode.SOLO, user);
 		
 		//Segment
 		Segment segA = new Segment();
-		segA.setChallengeOwner(challengeComposed);
 		//crossingPoints
 		CrossingPoint a = new CrossingPoint();
 		a.setName("A");
@@ -44,23 +43,27 @@ public class CreateEmployee {
 		b.setName("B");
 		b.setScore(10);
 		b.setSegmentOwner(segA);
+		/*
 		List<CrossingPoint> listcross = new ArrayList<CrossingPoint>();
 		listcross.add(a);
 		listcross.add(b);
+		*/
 		
-		segA.setCrossingPoints(listcross);
+		//segA.setCrossingPoints(listcross);
 		
 		//
 		Obstacle obsTest = new Enigma("hello", "this is a test");
 		obsTest.setSegmentOwner(segA);
+		/*
 		List<Obstacle> listObs = new ArrayList<Obstacle>();
 		listObs.add(obsTest);
 		segA.setObstacles(listObs);
+		*/
 		
+		segA.setChallengeOwner(chall);
 		
 		//Segment
 		Segment segB = new Segment();
-		segB.setChallengeOwner(challengeComposed);
 		//crossingPoints
 		CrossingPoint c = new CrossingPoint();
 		c.setName("C");
@@ -70,27 +73,35 @@ public class CreateEmployee {
 		d.setName("D");
 		d.setScore(10);
 		d.setSegmentOwner(segB);
+		/*
 		List<CrossingPoint> listcrossSecond = new ArrayList<CrossingPoint>();
 		listcross.add(c);
 		listcross.add(d);
 		
 		segB.setCrossingPoints(listcrossSecond);
+		 */
 		
 		//
 		Obstacle obsTestSec = new Enigma("hello2", "this is a test2");
 		obsTestSec.setSegmentOwner(segB);
+		/*
 		List<Obstacle> listObsSec = new ArrayList<Obstacle>();
 		listObsSec.add(obsTestSec);
 		segB.setObstacles(listObsSec);
-		segB.setChallengeOwner(challengeComposed);
+		*/
+		segB.setChallengeOwner(chall);
 		
 		//somme of segA and B
+		/*
 		List<Segment> route = new ArrayList<Segment>();
 		route.add(segA);
 		route.add(segB);
 		
 		challengeComposed.setTrip(route);
-		user.addChallenge(challengeComposed);
+		*/
+		//segB.setChallengeOwner(chall);
+		//user.addChallenge(chall);
+		chall.setOwner(user);
 
 		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("FitnessChalleng2021");
 
@@ -98,6 +109,17 @@ public class CreateEmployee {
 		entitymanager.getTransaction().begin();
 
 		entitymanager.persist(user);
+		entitymanager.persist(chall);
+		entitymanager.persist(obsTestSec);
+		entitymanager.persist(d);
+		entitymanager.persist(c);
+		entitymanager.persist(a);
+		entitymanager.persist(b);
+		entitymanager.persist(d);
+		entitymanager.persist(obsTest);
+		entitymanager.persist(segA);
+		entitymanager.persist(segB);
+		
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 		emfactory.close();

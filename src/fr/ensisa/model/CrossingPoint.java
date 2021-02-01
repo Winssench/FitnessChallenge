@@ -24,6 +24,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -70,7 +71,7 @@ public class CrossingPoint {
 		this.segmentOwner = segmentOwner;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+
 	private Segment segmentOwner; 
     
     public CrossingPoint()

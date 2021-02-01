@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+
 /**
  *		@file            	Segment.java
  *      @details
@@ -41,62 +42,33 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
-@Entity(name ="Segment")
+@Entity(name = "Segment")
 @Table(name = "segment")
 public class Segment {
-	
-	
-	
-	public Segment()
-	{
-		
-	}
-	@Id
-    @GeneratedValue
-    private long id;
 
-    private Segment next;
-    //private CrossingPoint start;
-    //private CrossingPoint end;
-    
-    @OneToMany(
-    		mappedBy = "segmentOwner" ,
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-    		)
-    private List<CrossingPoint> crossingPoints;
-    
-    
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Challenge challengeOwner;   
-    
-    @OneToMany(
-			mappedBy = "segmentOwner" ,
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-		)
-    private List<Obstacle> obstacles;
-    
-    
-    public long getId() {
+	public Segment() {
+
+	}
+
+	@Id
+	@GeneratedValue
+	private long id;
+
+	private Segment next;
+
+	private Challenge challengeOwner;
+
+	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public List<CrossingPoint> getCrossingPoints() {
-		return crossingPoints;
-	}
-
-	public void setCrossingPoints(List<CrossingPoint> crossingPoints) {
-		this.crossingPoints = crossingPoints;
 	}
 
 	public Challenge getChallengeOwner() {
@@ -106,39 +78,31 @@ public class Segment {
 	public void setChallengeOwner(Challenge challengeOwner) {
 		this.challengeOwner = challengeOwner;
 	}
+
 	private float distance;
 
-    public Segment( float distance) {
-        this.obstacles = new ArrayList<>();
-        this.next = null;
-       
-        this.distance = distance;
-    }
+	public Segment(float distance) {
+		// this.obstacles = new ArrayList<>();
+		this.next = null;
 
-    public Segment getNext() {
-        return next;
-    }
+		this.distance = distance;
+	}
 
-    public void setNext(Segment next) {
-        this.next = next;
-    }
+	public Segment getNext() {
+		return next;
+	}
 
-   
+	public void setNext(Segment next) {
+		this.next = next;
+	}
 
-    public float getDistance() {
-        return distance;
-    }
+	public float getDistance() {
+		return distance;
+	}
 
-    public void setDistance(float distance) {
-        this.distance = distance;
-    }
-
-    public List<Obstacle> getObstacles() {
-        return obstacles;
-    }
-
-    public void setObstacles(List<Obstacle> obstacles) {
-        this.obstacles = obstacles;
-    }
+	public void setDistance(float distance) {
+		this.distance = distance;
+	}
+	
 
 }

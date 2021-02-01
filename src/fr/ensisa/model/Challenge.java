@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+
 /**
  *		@file            	Challenge.java
  *      @details
@@ -49,96 +50,72 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
-@Entity(name ="Challenge")
+@Entity
 @Table(name = "challenge")
 public class Challenge {
-	
-	
-	public Challenge()
-	{
-		
+
+	public Challenge() {
+
 	}
 
 	@Id
-    @GeneratedValue
-    private long id;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;
-    
-    
-    
-    @OneToMany(
-    		mappedBy = "challengeOwner" ,
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
-    		)
-    private List<Segment> trip;
-    
-    
+	@GeneratedValue
+	private long id;
 
-    public User getOwner() {
+	private User owner;
+
+	public User getOwner() {
 		return owner;
 	}
+
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
-	public User getOwnerId() {	return owner;	}
-	public void setOwnerId(User owner) {this.owner = owner;}
 
 	private String name;
-    private int maxUsers;
-  
-    private GamingMode mode;
+	private int maxUsers;
 
-    public Challenge(String name, int maxUsers, GamingMode mode, User owner) {
-        this.name = name;
-        this.maxUsers = maxUsers;
-        this.mode = mode;
-        this.trip = new ArrayList<>();
-        this.owner = owner;
-        
-    }
+	private GamingMode mode;
 
-    public long getId() {
-        return id;
-    }
+	public Challenge(String name, int maxUsers, GamingMode mode, User owner) {
+		this.name = name;
+		this.maxUsers = maxUsers;
+		this.mode = mode;
+		this.owner = owner;
 
-    public void setId(long id) {
-        this.id = id;
-    }
+	}
 
-    public String getName() {
-        return name;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public int getMaxUsers() {
-        return maxUsers;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public List<Segment> getTrip() {
-        return trip;
-    }
+	public int getMaxUsers() {
+		return maxUsers;
+	}
 
-    public void setTrip(List<Segment> trip) {
-        this.trip = trip;
-    }
+	public void setMaxUsers(int maxUsers) {
+		this.maxUsers = maxUsers;
+	}
 
-    public GamingMode getMode() {
-        return mode;
-    }
 
-    public void setMode(GamingMode mode) {
-        this.mode = mode;
-    }
+	public GamingMode getMode() {
+		return mode;
+	}
+
+	public void setMode(GamingMode mode) {
+		this.mode = mode;
+	}
 
 }
