@@ -77,11 +77,20 @@ public class Challenge {
 
 	private GamingMode mode;
 
+	public Challenge(long id,String name, int maxUsers, GamingMode mode, User owner) {
+		this.name = name;
+		this.maxUsers = maxUsers;
+		this.mode = mode;
+		this.owner = owner;
+		this.id= id;
+
+	}
 	public Challenge(String name, int maxUsers, GamingMode mode, User owner) {
 		this.name = name;
 		this.maxUsers = maxUsers;
 		this.mode = mode;
 		this.owner = owner;
+	
 
 	}
 
@@ -108,7 +117,6 @@ public class Challenge {
 	public void setMaxUsers(int maxUsers) {
 		this.maxUsers = maxUsers;
 	}
-
 
 	public GamingMode getMode() {
 		return mode;
