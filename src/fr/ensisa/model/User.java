@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -34,21 +34,35 @@ package fr.ensisa.model;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.res.Role;
+import javax.persistence.*;
 
+@Entity
+@Table
 public class User {
 
+    @Id
+    @GeneratedValue
     private long id;
+
+    @Basic(fetch = FetchType.LAZY, optional = false)
     private String username;
+
+    @Basic(fetch = FetchType.LAZY, optional = false)
     private String password;
     private Role role;
 
     public User(String username, String password) {
+        super();
         this.username = username;
         this.password = password;
+        this.role = Role.ADMINISTRATOR;
     }
 
     public User() {
         super();
+        this.username = null;
+        this.password = null;
+        this.role = Role.ADMINISTRATOR;
     }
 
     public long getId() {

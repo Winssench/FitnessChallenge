@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -33,17 +33,141 @@ package fr.ensisa.dao;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import java.util.Collection;
-import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.util.List;
 
-public interface Dao<T, V> {
+public abstract class Dao<T> {
 
-    Optional<T> find(long id);
-    Collection<T> findAll();
-    void persist(T t);
-    void update(T t, V[] params);
-    void remove(T t);
-    long count();
-    boolean contains(V[] v);
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("FitnessChalleng2021");
+    private EntityManager entityManager;
+    private Class<T> classEntity;
+    private boolean state;
+
+    public Dao(Class<T> classEntity) {
+        this.classEntity = classEntity;
+    }
+
+    public EntityManager getEntityManager() {
+        // Check if entity manager is null
+        if (entityManager == null)
+            // Creates entity manager
+            entityManager = factory.createEntityManager();
+        return entityManager;
+    }
+
+    public boolean persist(T entity) {
+        // Update transaction state
+        state = false;
+
+        try {
+            // Begin a transaction with the database
+            getEntityManager().getTransaction().begin();
+
+            // Persist the entity into the database
+            getEntityManager().persist(entity);
+
+            // Synchronize the persistence context to the underlying database.
+            getEntityManager().flush();
+
+            // Update transaction state
+            state = true;
+        }
+        finally {
+            if (state) {
+                // Validate the transaction
+                getEntityManager().getTransaction().commit();
+            }
+            else {
+                // Rollback the transaction
+                getEntityManager().getTransaction().rollback();
+            }
+        }
+
+        return state;
+    }
+
+    public boolean update(T entity) {
+        // Update transaction state
+        state = false;
+
+        try {
+            // Begin a transaction with the database
+            getEntityManager().getTransaction().begin();
+
+            // Merge the new entity with the previous one
+            getEntityManager().merge(entity);
+
+            // Synchronize the persistence context to the underlying database.
+            getEntityManager().flush();
+
+            // Update transaction state
+            state = true;
+        }
+        finally {
+            if (state) {
+                // Validate the transaction
+                getEntityManager().getTransaction().commit();
+            }
+            else {
+                // Rollback the transaction
+                getEntityManager().getTransaction().rollback();
+            }
+        }
+
+        return state;
+    }
+
+    public boolean remove(T entity) {
+        // Update transaction state
+        state = false;
+
+        try {
+            // Begin a transaction with the database
+            getEntityManager().getTransaction().begin();
+
+            // Remove the entity instance
+            getEntityManager().remove(entity);
+
+            // Synchronize the persistence context to the underlying database.
+            getEntityManager().flush();
+
+            // Update transaction state
+            state = true;
+        }
+        finally {
+            if (state) {
+                // Validate the transaction
+                getEntityManager().getTransaction().commit();
+            }
+            else {
+                // Rollback the transaction
+                getEntityManager().getTransaction().rollback();
+            }
+        }
+
+        return state;
+    }
+
+    public T findById(Object id) {
+        return getEntityManager().find(classEntity, id);
+    }
+
+    public T findByKey(String key, String value) {
+        return (T) getEntityManager().createQuery("SELECT e FROM " + classEntity.getName() + " e WHERE e." + key + "=:" + key)
+                .setParameter(key, value)
+                .getSingleResult();
+    }
+
+    public List<T> findAll() {
+        return (List<T>) getEntityManager().createQuery("SELECT * FROM " + classEntity.getName())
+                .getResultList();
+    }
+
+    public int count() {
+        return (int) getEntityManager().createQuery("SELECT COUNT(*) FROM " + classEntity.getName())
+                .getSingleResult();
+    }
 
 }

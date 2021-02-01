@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.dao;
 /**
- *		@file            	Enigma.java
+ *		@file            	EnigmaDao.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,54 +33,16 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.ObstacleType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import fr.ensisa.model.Enigma;
 
-@Entity
-@DiscriminatorValue("Enigma")
-public class Enigma extends Obstacle {
+public class EnigmaDao extends Dao<Enigma> {
 
-    private String answer;
-
-    public Enigma(String name, String description) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public EnigmaDao(Class<Enigma> classEntity) {
+        super(classEntity);
     }
 
-    public Enigma() {
-        super();
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public ObstacleType getType() {
-        return type;
-    }
-
-    public boolean verify(String answer) {
-        return this.answer.equalsIgnoreCase(answer);
-    }
-
-    @Override
-    public String toString() {
-        return "Enigma{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", answer='" + answer + '\'' +
-                ", type=" + type +
-                '}';
+    public EnigmaDao() {
+        super(Enigma.class);
     }
 
 }

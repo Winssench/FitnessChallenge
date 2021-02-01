@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -34,10 +34,48 @@ package fr.ensisa.model;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.res.ObstacleType;
+import javax.persistence.*;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Obstacle_Type")
 public abstract class Obstacle {
 
-    protected String goal;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Basic(fetch = FetchType.LAZY, optional = false)
+    protected String name;
+
+    @Basic(fetch = FetchType.LAZY, optional = false)
+    protected String description;
+
+    private Segment segmentOwner;
     protected ObstacleType type;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Segment getSegmentOwner() {
+        return segmentOwner;
+    }
+
+    public void setSegmentOwner(Segment segmentOwner) {
+        this.segmentOwner = segmentOwner;
+    }
 
 }

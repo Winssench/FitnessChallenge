@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.controllers;
 /**
- *		@file            	Enigma.java
+ *		@file            	PhysicalTaskManager.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,54 +33,38 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.ObstacleType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import fr.ensisa.dao.PhysicalTaskDao;
+import fr.ensisa.factory.Factory;
+import fr.ensisa.model.PhysicalTask;
+import java.util.List;
 
-@Entity
-@DiscriminatorValue("Enigma")
-public class Enigma extends Obstacle {
+public class PhysicalTaskManager extends Manager {
 
-    private String answer;
+    private static Factory<PhysicalTaskDao> factory = new Factory<PhysicalTaskDao>() {
+        @Override
+        public PhysicalTaskDao getDao() {
+            return new PhysicalTaskDao();
+        }
+    };
 
-    public Enigma(String name, String description) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public static boolean create(String name, String description) {
+        return factory.getDao().persist(new PhysicalTask(name, description));
     }
 
-    public Enigma() {
-        super();
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public static PhysicalTask getById(long id) {
+        return factory.getDao().findById(id);
     }
 
-    public String getAnswer() {
-        return answer;
+    public static PhysicalTask getByName(String name) {
+        return factory.getDao().findByKey("name", name);
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public static List<PhysicalTask> getAll() {
+        return factory.getDao().findAll();
     }
 
-    public ObstacleType getType() {
-        return type;
-    }
-
-    public boolean verify(String answer) {
-        return this.answer.equalsIgnoreCase(answer);
-    }
-
-    @Override
-    public String toString() {
-        return "Enigma{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", answer='" + answer + '\'' +
-                ", type=" + type +
-                '}';
+    public static boolean delete(PhysicalTask physicalTask) {
+        return factory.getDao().remove(physicalTask);
     }
 
 }

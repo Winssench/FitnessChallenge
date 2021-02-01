@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -34,28 +34,37 @@ package fr.ensisa.model;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.res.GamingMode;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table
 public class Challenge {
 
+    @Id
+    @GeneratedValue
     private long id;
+
     private String name;
-    private String author;
+    private User userOwner;
     private int maxUsers;
-    private List<Segment> trip;
     private GamingMode mode;
 
-    public Challenge(String name, String author, int maxUsers, GamingMode mode) {
+    public Challenge(String name, int maxUsers) {
+        super();
         this.name = name;
-        this.author = author;
+        this.userOwner = null;
         this.maxUsers = maxUsers;
-        this.mode = mode;
-        this.trip = new ArrayList<>();
+        this.mode = GamingMode.TEAM;
     }
 
     public Challenge() {
         super();
+        this.name = null;
+        this.userOwner = null;
+        this.mode = GamingMode.TEAM;
     }
 
     public long getId() {
@@ -74,28 +83,12 @@ public class Challenge {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public int getMaxUsers() {
         return maxUsers;
     }
 
     public void setMaxUsers(int maxUsers) {
         this.maxUsers = maxUsers;
-    }
-
-    public List<Segment> getTrip() {
-        return trip;
-    }
-
-    public void setTrip(List<Segment> trip) {
-        this.trip = trip;
     }
 
     public GamingMode getMode() {
@@ -111,9 +104,7 @@ public class Challenge {
         return "Challenge{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
                 ", maxUsers=" + maxUsers +
-                ", trip=" + trip +
                 ", mode=" + mode +
                 '}';
     }

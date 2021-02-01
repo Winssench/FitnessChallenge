@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -33,23 +33,42 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@Table
 public class Segment {
 
+    @Id
+    @GeneratedValue
+    private long id;
+
+    private String name;
     private Segment next;
-    private CrossingPoint start;
-    private CrossingPoint end;
-    private List<Obstacle> obstacles;
+    private Challenge challengeOwner;
     private float distance;
 
-    public Segment(CrossingPoint start, CrossingPoint end, float distance) {
-        this.obstacles = new ArrayList<>();
+    public Segment(String name, float distance) {
+        super();
+        this.name = name;
         this.next = null;
-        this.start = start;
-        this.end = end;
+        this.challengeOwner = null;
         this.distance = distance;
+    }
+
+    public Segment() {
+        super();
+        this.name = null;
+        this.next = null;
+        this.challengeOwner = null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Segment getNext() {
@@ -60,45 +79,26 @@ public class Segment {
         this.next = next;
     }
 
-    public CrossingPoint getStart() {
-        return start;
-    }
-
-    public void setStart(CrossingPoint start) {
-        this.start = start;
-    }
-
-    public CrossingPoint getEnd() {
-        return end;
-    }
-
-    public void setEnd(CrossingPoint end) {
-        this.end = end;
-    }
-
     public float getDistance() {
         return distance;
+    }
+
+    public Challenge getChallengeOwner() {
+        return challengeOwner;
+    }
+
+    public void setChallengeOwner(Challenge challengeOwner) {
+        this.challengeOwner = challengeOwner;
     }
 
     public void setDistance(float distance) {
         this.distance = distance;
     }
 
-    public List<Obstacle> getObstacles() {
-        return obstacles;
-    }
-
-    public void setObstacles(List<Obstacle> obstacles) {
-        this.obstacles = obstacles;
-    }
-
     @Override
     public String toString() {
         return "Segment{" +
                 "next=" + next +
-                ", start=" + start +
-                ", end=" + end +
-                ", obstacles=" + obstacles +
                 ", distance=" + distance +
                 '}';
     }

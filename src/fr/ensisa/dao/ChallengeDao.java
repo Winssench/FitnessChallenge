@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -34,51 +34,15 @@ package fr.ensisa.dao;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.model.Challenge;
-import fr.ensisa.res.GamingMode;
-import java.util.*;
 
-public class ChallengeDao implements Dao<Challenge, String> {
+public class ChallengeDao extends Dao<Challenge> {
 
-    private final Map<Long, Challenge> store = Collections.synchronizedMap(new TreeMap<Long, Challenge>());
-
-    @Override
-    public Optional<Challenge> find(long id) {
-        return Optional.ofNullable(store.get(id));
+    public ChallengeDao(Class<Challenge> classEntity) {
+        super(classEntity);
     }
 
-    @Override
-    public Collection<Challenge> findAll() {
-        return store.values();
+    public ChallengeDao() {
+        super(Challenge.class);
     }
-
-    @Override
-    public void persist(Challenge challenge) {
-        store.put(challenge.getId(), challenge);
-    }
-
-    @Override
-    public void update(Challenge challenge, String[] params) {
-        challenge.setName(Objects.requireNonNull(params[0], "A challenge must have a name"));
-        challenge.setAuthor(Objects.requireNonNull(params[1], "A challenge must have an author"));
-        challenge.setMaxUsers(Objects.requireNonNull(Integer.valueOf(params[2]), "A challenge must have a maximum number of users"));
-        challenge.setMode(Objects.requireNonNull(GamingMode.find(params[3]).get(), "A challenge must have a gaming mode"));
-        store.put(challenge.getId(), challenge);
-    }
-
-    @Override
-    public void remove(Challenge challenge) {
-        store.remove(challenge.getId());
-    }
-
-    @Override
-    public long count() {
-        return store.size();
-    }
-
-    @Override
-    public boolean contains(String[] v) {
-        return false;
-    }
-
 
 }

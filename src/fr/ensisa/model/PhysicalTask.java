@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -34,23 +34,27 @@ package fr.ensisa.model;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.res.ObstacleType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("PhysicalTask")
 public class PhysicalTask extends Obstacle {
 
     private boolean state;
 
-    public PhysicalTask(String goal, boolean state) {
-        this.state = state;
-        this.goal = goal;
+    public PhysicalTask(String name, String description) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.state = false;
         this.type = ObstacleType.PHYSICAL;
     }
 
-    public String getGoal() {
-        return goal;
-    }
-
-    public void setGoal(String goal) {
-        this.goal = goal;
+    public PhysicalTask() {
+        super();
+        this.state = false;
+        this.type = ObstacleType.PHYSICAL;
     }
 
     public boolean isState() {
@@ -68,8 +72,8 @@ public class PhysicalTask extends Obstacle {
     @Override
     public String toString() {
         return "PhysicalTask{" +
-                "goal='" + goal + '\'' +
-                ", type=" + type +
+                "name='" + name + '\'' +
+                ", description=" + description + '\'' +
                 ", state=" + state +
                 '}';
     }

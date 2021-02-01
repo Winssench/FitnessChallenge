@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -47,26 +47,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 @Path("/signin")
 public class SignIn {
-
-    @POST
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response connectionInTextPlain(@QueryParam("token") String token) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            return Response.ok("connected").build();
-        }
-    }
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)

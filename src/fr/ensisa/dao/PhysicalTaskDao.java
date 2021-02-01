@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.factory;
+package fr.ensisa.dao;
 /**
- *		@file            	UserFactory.java
+ *		@file            	PhysicalTaskDao.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,15 +33,16 @@ package fr.ensisa.factory;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.dao.UserDao;
+import fr.ensisa.model.PhysicalTask;
 
-public class UserFactory implements Factory<UserDao> {
+public class PhysicalTaskDao extends Dao<PhysicalTask> {
 
-    private final UserDao dao = new UserDao();
+    public PhysicalTaskDao(Class<PhysicalTask> classEntity) {
+        super(classEntity);
+    }
 
-    @Override
-    public UserDao getDao() {
-        return dao;
+    public PhysicalTaskDao() {
+        super(PhysicalTask.class);
     }
 
 }

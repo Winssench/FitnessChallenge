@@ -33,14 +33,7 @@ package fr.ensisa.admin;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.factory.ChallengeFactory;
-import fr.ensisa.model.Challenge;
-import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -51,36 +44,7 @@ import javax.xml.parsers.ParserConfigurationException;
 @Path("/")
 public class Open {
 
-	private ChallengeFactory challengeFactory = new ChallengeFactory();
-
-	/**
-	 * @brief		This method is called if TEXT_PLAIN is request
-	 * @return		TEXT_PLAIN
-	 */
-	@GET
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getChallengesInPlainText() {
-		// Check if there is no challenge in the DAO
-		if (challengeFactory.getDao().count() == 0) {
-			// Define entity
-			String entity = "{error{reason='no challenges'" +
-					", message='Not Found'}" +
-					", code='404'}";
-
-			return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
-		}
-		else {
-			// Define entity
-			StringBuilder entity = new StringBuilder();
-
-			for (Challenge c : challengeFactory.getDao().findAll()) {
-				entity.append(c.toString());
-			}
-
-			return Response.ok(entity.toString()).build();
-		}
-	}
+	//private ChallengeFactory challengeFactory = new ChallengeFactory();
 
 	/**
 	 * @brief		This method is called if APPLICATION_XML is request
@@ -100,7 +64,7 @@ public class Open {
 		Document doc = builder.newDocument();
 
 		// Check if there is no challenge in the DAO
-		if (challengeFactory.getDao().count() == 0) {
+		/*if (challengeFactory.getDao().count() == 0) {
 			// Creates root element
 			Element root = doc.createElement("errors");
 			doc.appendChild(root);
@@ -128,7 +92,7 @@ public class Open {
 		}
 		else {
 			// Creates root element
-			Element root = doc.createElement("challenges");
+			/*Element root = doc.createElement("challenges");
 			doc.appendChild(root);
 
 			for (Challenge c : challengeFactory.getDao().findAll()) {
@@ -165,7 +129,9 @@ public class Open {
 			}
 
 			return Response.ok(Parser.XML(doc)).build();
-		}
+
+		}*/
+		return null;
 	}
 
 	/**
@@ -177,7 +143,7 @@ public class Open {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getChallengesInJSON() {
 		// Check if there is no challenge in the DAO
-		if (challengeFactory.getDao().count() == 0) {
+		/*if (challengeFactory.getDao().count() == 0) {
 			// Creates a JsonObject Builder
 			JsonObject value = Json.createObjectBuilder()
 					.add("error",
@@ -209,7 +175,9 @@ public class Open {
 			}
 
 			return Response.ok(array.build().toString()).build();
-		}
+
+		}*/
+		return null;
 	}
 
 }

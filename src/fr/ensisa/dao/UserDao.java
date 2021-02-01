@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -34,52 +34,15 @@ package fr.ensisa.dao;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 import fr.ensisa.model.User;
-import java.util.*;
 
-public class UserDao implements Dao<User, String> {
+public class UserDao extends Dao<User> {
 
-    private final Map<Long, User> store = Collections.synchronizedMap(new TreeMap<Long, User>());
-
-    @Override
-    public Optional<User> find(long id) {
-        return Optional.ofNullable(store.get(id));
+    public UserDao(Class<User> classEntity) {
+        super(classEntity);
     }
 
-    @Override
-    public Collection<User> findAll() {
-        return store.values();
-    }
-
-    @Override
-    public void persist(User user) {
-        store.put(user.getId(), user);
-    }
-
-    @Override
-    public void update(User user, String[] params) {
-        user.setUsername(Objects.requireNonNull(params[0], "An user must have an username"));
-        user.setPassword(Objects.requireNonNull(params[1], "An user must have a password"));
-        store.put(user.getId(), user);
-    }
-
-    @Override
-    public void remove(User user) {
-        store.remove(user.getId());
-    }
-
-    @Override
-    public long count() {
-        return store.size();
-    }
-
-    @Override
-    public boolean contains(String[] v) {
-        for (User user : store.values()) {
-            if (user.getUsername().equals(v[0]) && user.getPassword().equals(v[1])) {
-                return true;
-            }
-        }
-        return false;
+    public UserDao() {
+        super(User.class);
     }
 
 }

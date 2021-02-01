@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -33,15 +33,36 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import javax.persistence.*;
 
+@Entity
+@Table
 public class CrossingPoint {
+
+    @Id
+    @GeneratedValue
+    private long id;
 
     private String name;
     private float score;
 
     public CrossingPoint(String name, float score) {
+        super();
         this.name = name;
         this.score = score;
+    }
+
+    public CrossingPoint() {
+        super();
+        this.name = null;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -67,4 +88,5 @@ public class CrossingPoint {
                 ", score=" + score +
                 '}';
     }
+
 }

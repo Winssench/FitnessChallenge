@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -33,8 +33,6 @@ package fr.ensisa.admin;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.factory.UserFactory;
-import fr.ensisa.model.User;
 import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,44 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 @Path("/signup")
 public class SignUp {
 
-    private UserFactory userFactory = new UserFactory();
-
-    @POST
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response subscriptionInTextPlain(@QueryParam("username") String username, @QueryParam("password") String password) {
-        // Check if query parameters is not empty
-        if ((username == null && password == null) || (username.isEmpty() && password.isEmpty())) {
-            // Define entity
-            String entity = "{error{reason='null query parameters'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // Check if user already exists in the database
-            if (userFactory.getDao().contains(new String[]{username, password})) {
-                // Define entity
-                String entity = "{error{reason='user already exists'" +
-                        ", message='Conflict'}" +
-                        ", code='409'}";
-
-                return Response.status(Response.Status.CONFLICT).entity(entity).build();
-            }
-            else {
-                // Adding new User in the database
-                userFactory.getDao().persist(new User(username, password));
-
-                // Define entity
-                String entity = "{success{message='user has been created'" +
-                        ", token=''" +
-                        ", code='200'}}";
-
-                return Response.ok(entity).build();
-            }
-        }
-    }
+    //private UserFactory userFactory = new UserFactory();
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
@@ -131,7 +92,7 @@ public class SignUp {
         }
         else {
             // Check if user already exists in the database
-            if (userFactory.getDao().contains(new String[]{username, password})) {
+            /*if (userFactory.getDao().contains(new String[]{username, password})) {
                 // Creates root element
                 Element root = doc.createElement("errors");
                 doc.appendChild(root);
@@ -181,7 +142,8 @@ public class SignUp {
                 root.appendChild(code);
 
                 return Response.ok(Parser.XML(doc)).build();
-            }
+            }*/
+            return null;
         }
     }
 
@@ -206,7 +168,7 @@ public class SignUp {
         }
         else {
             // Check if user already exists in the database
-            if (userFactory.getDao().contains(new String[]{username, password})) {
+            /*if (userFactory.getDao().contains(new String[]{username, password})) {
                 // Creates a JsonObject Builder
                 JsonObject value = Json.createObjectBuilder()
                         .add("error",
@@ -236,7 +198,8 @@ public class SignUp {
                         .build();
 
                 return Response.ok(value.toString()).build();
-            }
+            }*/
+            return null;
         }
     }
 

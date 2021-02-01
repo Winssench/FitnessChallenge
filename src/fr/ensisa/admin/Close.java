@@ -33,9 +33,6 @@ package fr.ensisa.admin;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.factory.ChallengeFactory;
-import fr.ensisa.model.Challenge;
-import fr.ensisa.res.GamingMode;
 import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,44 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 @Path("/challenge")
 public class Close {
 
-    private ChallengeFactory challengeFactory = new ChallengeFactory();
-
-    @POST
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response createChallengeInPlainText(@QueryParam("token") String token, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            if ((name == null && author == null && mode == null) || (name.isEmpty() && author.isEmpty() && mode.isEmpty())) {
-                // Define entity
-                String entity = "{error{reason='null query parameters'" +
-                        ", message='Bad Request'}" +
-                        ", code='400'}";
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-            }
-            else {
-                // Add new challenge in the database
-                challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
-
-                // Define entity
-                String entity = "{success{message='challenge has been created'" +
-                        ", code='200'}}";
-
-                return Response.ok(entity).build();
-            }
-        }
-    }
+    //private ChallengeFactory challengeFactory = new ChallengeFactory();
 
     @POST
     @Consumes(MediaType.APPLICATION_XML)
@@ -161,7 +121,7 @@ public class Close {
             }
             else {
                 // Add new challenge in the database
-                challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
+                /*challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
 
                 // Creates root element
                 Element root = doc.createElement("success");
@@ -177,7 +137,8 @@ public class Close {
                 code.appendChild(doc.createTextNode("200"));
                 root.appendChild(code);
 
-                return Response.ok(Parser.XML(doc)).build();
+                return Response.ok(Parser.XML(doc)).build();*/
+                return null;
             }
         }
     }
@@ -220,7 +181,7 @@ public class Close {
             }
             else {
                 // Add new challenge in the database
-                challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
+                /*challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
 
                 // Creates a JsonObject Builder
                 JsonObject value = Json.createObjectBuilder()
@@ -232,66 +193,8 @@ public class Close {
                         )
                         .build();
 
-                return Response.ok(value.toString()).build();
-            }
-        }
-    }
-
-    @PUT
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response updateChallengeInPlainText(@QueryParam("token") String token, @QueryParam("id") int id, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            if (id == 0) {
-                // Define entity
-                String entity = "{error{reason='null id'" +
-                        ", message='Bad Request'}" +
-                        ", code='400'}";
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-            }
-            else {
-                // Check if challenge exists in the database
-                if (!challengeFactory.getDao().find(id).isPresent()) {
-                    // Define entity
-                    String entity = "{error{reason='challenge does not exists'" +
-                            ", message='Not Found'}" +
-                            ", code='404'}";
-
-                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
-                }
-                else {
-                    // Check if query parameters is null
-                    if ((name == null && author == null) || (name.isEmpty() && author.isEmpty())) {
-                        // Define entity
-                        String entity = "{error{reason='null query parameters'" +
-                                ", message='Bad Request'}" +
-                                ", code='400'}";
-
-                        return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-                    }
-                    else {
-                        // Update challenge assets in the database
-                        challengeFactory.getDao().update(challengeFactory.getDao().find(id).get(), new String[]{name, author, String.valueOf(maxUsers), mode});
-
-                        // Define entity
-                        String entity = "{success{message='challenge has been updated'" +
-                                ", code='200'}}";
-
-                        return Response.ok(entity).build();
-                    }
-                }
+                return Response.ok(value.toString()).build();*/
+                return null;
             }
         }
     }
@@ -367,7 +270,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (!challengeFactory.getDao().find(id).isPresent()) {
+                /*if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");
                     doc.appendChild(root);
@@ -441,7 +344,8 @@ public class Close {
 
                         return Response.ok(Parser.XML(doc)).build();
                     }
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -484,7 +388,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (!challengeFactory.getDao().find(id).isPresent()) {
+                /*if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates a JsonObject Builder
                     JsonObject value = Json.createObjectBuilder()
                             .add("error",
@@ -530,55 +434,8 @@ public class Close {
 
                         return Response.ok(value.toString()).build();
                     }
-                }
-            }
-        }
-    }
-
-    @DELETE
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response deleteChallengeInTextPlain(@QueryParam("token") String token, @QueryParam("id") int id) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            if (id == 0) {
-                // Define entity
-                String entity = "{error{reason='null id'" +
-                        ", message='Bad Request'}" +
-                        ", code='400'}";
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-            }
-            else {
-                // Check if challenge exists in the database
-                if (!challengeFactory.getDao().find(id).isPresent()) {
-                    // Define entity
-                    String entity = "{error{reason='challenge does not exists'" +
-                            ", message='Not Found'}" +
-                            ", code='404'}";
-
-                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
-                }
-                else {
-                    // Delete existing challenge from the database
-                    challengeFactory.getDao().remove(challengeFactory.getDao().find(id).get());
-
-                    // Define entity
-                    String entity = "{success{message='challenge has been deleted'" +
-                            ", code='200'}}";
-
-                    return Response.ok(entity).build();
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -654,7 +511,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (!challengeFactory.getDao().find(id).isPresent()) {
+                /*if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");
                     doc.appendChild(root);
@@ -699,7 +556,8 @@ public class Close {
                     root.appendChild(code);
 
                     return Response.ok(Parser.XML(doc)).build();
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -742,7 +600,7 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
-                if (!challengeFactory.getDao().find(id).isPresent()) {
+                /*if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates a JsonObject Builder
                     JsonObject value = Json.createObjectBuilder()
                             .add("error",
@@ -771,7 +629,8 @@ public class Close {
                             .build();
 
                     return Response.ok(value.toString()).build();
-                }
+                }*/
+                return null;
             }
         }
     }

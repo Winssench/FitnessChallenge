@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.controllers;
 /**
- *		@file            	Enigma.java
+ *		@file            	UserManager.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,54 +33,43 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.ObstacleType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import fr.ensisa.dao.UserDao;
+import fr.ensisa.factory.Factory;
+import fr.ensisa.model.User;
+import java.util.List;
 
-@Entity
-@DiscriminatorValue("Enigma")
-public class Enigma extends Obstacle {
+public class UserManager extends Manager {
 
-    private String answer;
+    private static Factory<UserDao> factory = new Factory<UserDao>() {
+        @Override
+        public UserDao getDao() {
+            return new UserDao();
+        }
+    };
 
-    public Enigma(String name, String description) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public static boolean create(String username, String password) {
+        return factory.getDao().persist(new User(username, password));
     }
 
-    public Enigma() {
-        super();
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public static User getById(long id) {
+        return factory.getDao().findById(id);
     }
 
-    public String getAnswer() {
-        return answer;
+    public static List<User> getAll() {
+        return factory.getDao().findAll();
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public static boolean delete(User user) {
+        return factory.getDao().remove(user);
     }
 
-    public ObstacleType getType() {
-        return type;
-    }
-
-    public boolean verify(String answer) {
-        return this.answer.equalsIgnoreCase(answer);
-    }
-
-    @Override
-    public String toString() {
-        return "Enigma{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", answer='" + answer + '\'' +
-                ", type=" + type +
-                '}';
+    public static boolean login(String username, String password) {
+        for (User user : getAll()) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

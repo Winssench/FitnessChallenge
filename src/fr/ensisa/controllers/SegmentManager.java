@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
+package fr.ensisa.controllers;
 /**
- *		@file            	Enigma.java
+ *		@file            	SegmentManager.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,54 +33,38 @@ package fr.ensisa.model;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.ObstacleType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import fr.ensisa.dao.SegmentDao;
+import fr.ensisa.factory.Factory;
+import fr.ensisa.model.Segment;
+import java.util.List;
 
-@Entity
-@DiscriminatorValue("Enigma")
-public class Enigma extends Obstacle {
+public class SegmentManager extends Manager {
 
-    private String answer;
+    private static Factory<SegmentDao> factory = new Factory<SegmentDao>() {
+        @Override
+        public SegmentDao getDao() {
+            return new SegmentDao();
+        }
+    };
 
-    public Enigma(String name, String description) {
-        super();
-        this.name = name;
-        this.description = description;
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public static boolean create(String name, long distance) {
+        return factory.getDao().persist(new Segment(name, distance));
     }
 
-    public Enigma() {
-        super();
-        this.answer = null;
-        this.type = ObstacleType.ENIGMA;
+    public static Segment getById(long id) {
+        return factory.getDao().findById(id);
     }
 
-    public String getAnswer() {
-        return answer;
+    public static Segment getByName(String name) {
+        return factory.getDao().findByKey("name", name);
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public static List<Segment> getAll() {
+        return factory.getDao().findAll();
     }
 
-    public ObstacleType getType() {
-        return type;
-    }
-
-    public boolean verify(String answer) {
-        return this.answer.equalsIgnoreCase(answer);
-    }
-
-    @Override
-    public String toString() {
-        return "Enigma{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", answer='" + answer + '\'' +
-                ", type=" + type +
-                '}';
+    public static boolean delete(Segment segment) {
+        return factory.getDao().remove(segment);
     }
 
 }

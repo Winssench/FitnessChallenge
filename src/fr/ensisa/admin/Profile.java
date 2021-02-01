@@ -33,8 +33,6 @@ package fr.ensisa.admin;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.factory.UserFactory;
-import fr.ensisa.model.User;
 import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,56 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 @Path("/profile")
 public class Profile {
 
-    private UserFactory userFactory = new UserFactory();
-
-    @GET
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response checkUserInfosInTextPlain(@QueryParam("token") String token, @QueryParam("id") int id) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            if (id == 0) {
-                // Define entity
-                String entity = "{error{reason='null id'" +
-                        ", message='Bad Request'}" +
-                        ", code='400'}";
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-            }
-            else {
-                // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
-                    // Define entity
-                    String entity = "{error{reason='user does not exists'" +
-                            ", message='Not Found'}" +
-                            ", code='404'}";
-
-                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
-                }
-                else {
-                    // Get user profile information
-                    User user = userFactory.getDao().find(id).get();
-
-                    // Define entity
-                    String entity = "{success{username='" + user.getUsername() + "'" +
-                            ", role='" + user.getRole().getName() + "'" +
-                            ", code='200'}}";
-
-                    return Response.ok(entity).build();
-                }
-            }
-        }
-    }
+    //private UserFactory userFactory = new UserFactory();
 
     @GET
     @Consumes(MediaType.APPLICATION_XML)
@@ -172,7 +121,7 @@ public class Profile {
             }
             else {
                 // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
+                /*if (!userFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");
                     doc.appendChild(root);
@@ -222,7 +171,8 @@ public class Profile {
                     root.appendChild(code);
 
                     return Response.ok(Parser.XML(doc)).build();
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -265,7 +215,7 @@ public class Profile {
             }
             else {
                 // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
+                /*if (!userFactory.getDao().find(id).isPresent()) {
                     // Creates a JsonObject Builder
                     JsonObject value = Json.createObjectBuilder()
                             .add("error",
@@ -295,48 +245,8 @@ public class Profile {
                             .build();
 
                     return Response.ok(value.toString()).build();
-                }
-            }
-        }
-    }
-
-    @PUT
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response updateUserInfosInTextPlain(@QueryParam("token") String token, @QueryParam("id") int id) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            if (id == 0) {
-                // Define entity
-                String entity = "{error{reason='null id'" +
-                        ", message='Bad Request'}" +
-                        ", code='400'}";
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-            }
-            else {
-                // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
-                    // Define entity
-                    String entity = "{error{reason='user does not exists'" +
-                            ", message='Not Found'}" +
-                            ", code='404'}";
-
-                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
-                }
-                else {
-                    return null;
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -412,7 +322,7 @@ public class Profile {
             }
             else {
                 // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
+                /*if (!userFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");
                     doc.appendChild(root);
@@ -440,7 +350,8 @@ public class Profile {
                 }
                 else {
                     return null;
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -483,7 +394,7 @@ public class Profile {
             }
             else {
                 // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
+                /*if (!userFactory.getDao().find(id).isPresent()) {
                     // Creates a JsonObject Builder
                     JsonObject value = Json.createObjectBuilder()
                             .add("error",
@@ -499,55 +410,8 @@ public class Profile {
                 }
                 else {
                     return null;
-                }
-            }
-        }
-    }
-
-    @DELETE
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response deleteUserAccountInTextPlain(@QueryParam("token") String token, @QueryParam("id") int id) {
-        // Check if query parameters is not empty
-        if (token == null || token.isEmpty()) {
-            // Define entity
-            String entity = "{error{reason='null token'" +
-                    ", message='Unauthorized'}" +
-                    ", code='401'}";
-
-            return Response.status(Response.Status.UNAUTHORIZED).entity(entity).build();
-        }
-        else {
-            // TODO : Check if token is authorized
-
-            if (id == 0) {
-                // Define entity
-                String entity = "{error{reason='null id'" +
-                        ", message='Bad Request'}" +
-                        ", code='400'}";
-
-                return Response.status(Response.Status.BAD_REQUEST).entity(entity).build();
-            }
-            else {
-                // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
-                    // Define entity
-                    String entity = "{error{reason='user does not exists'" +
-                            ", message='Not Found'}" +
-                            ", code='404'}";
-
-                    return Response.status(Response.Status.NOT_FOUND).entity(entity).build();
-                }
-                else {
-                    // Delete existing user from the database
-                    userFactory.getDao().remove(userFactory.getDao().find(id).get());
-
-                    // Define entity
-                    String entity = "{success{message='user account has been deleted'" +
-                            ", code='200'}}";
-
-                    return Response.ok(entity).build();
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -623,7 +487,7 @@ public class Profile {
             }
             else {
                 // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
+                /*if (!userFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");
                     doc.appendChild(root);
@@ -668,7 +532,8 @@ public class Profile {
                     root.appendChild(code);
 
                     return Response.ok(Parser.XML(doc)).build();
-                }
+                }*/
+                return null;
             }
         }
     }
@@ -711,7 +576,7 @@ public class Profile {
             }
             else {
                 // Check if user exists in the database
-                if (!userFactory.getDao().find(id).isPresent()) {
+                /*if (!userFactory.getDao().find(id).isPresent()) {
                     // Creates a JsonObject Builder
                     JsonObject value = Json.createObjectBuilder()
                             .add("error",
@@ -740,7 +605,8 @@ public class Profile {
                             .build();
 
                     return Response.ok(value.toString()).build();
-                }
+                }*/
+                return null;
             }
         }
     }
