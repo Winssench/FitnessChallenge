@@ -16,10 +16,38 @@ import javax.ws.rs.core.SecurityContext;
 
 import fr.ensisa.controllers.UserManager;
 import fr.ensisa.model.User;
+import fr.ensisa.res.Role;
 import fr.ensisa.security.JWTokenUtility;
+import fr.ensisa.security.SigninNeeded;
 
 @Path("/")
 public class Authentification {
+	
+	@GET
+	@SigninNeeded
+	@Path("/whoami")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response whoami(@Context SecurityContext security) {
+		try {
+			System.err.println(">> whoami");
+			User user = UserManager.getUser(security.getUserPrincipal().getName());
+			return Response.ok().entity(user).build();
+		} catch (NullPointerException e) {
+			return Response.status(Status.NO_CONTENT).build();
+		}
+	}
+	
+	@POST
+	@Path("/signup")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response signup(@QueryParam("id") String id, @QueryParam("username") String username,
+			@QueryParam("password") String password) {
+		if (UserManager.createUser(Long.parseLong(id), username, password, Role.PLAYER))
+			return Response.status(Status.CREATED).build();
+		return Response.status(Status.CONFLICT).build();
+
+	}
+
 	
 	@POST
 	@Path("/signin")
