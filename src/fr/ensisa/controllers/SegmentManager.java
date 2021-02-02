@@ -67,4 +67,8 @@ public class SegmentManager extends Manager {
         return factory.getDao().remove(segment);
     }
 
+    public static int count() {
+        return factory.getDao().count();
+    }
+
 }

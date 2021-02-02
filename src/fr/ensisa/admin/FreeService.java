@@ -19,7 +19,7 @@
  */
 package fr.ensisa.admin;
 /**
- *		@file            	Open.java
+ *		@file            	FreeService.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,7 +33,14 @@ package fr.ensisa.admin;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import fr.ensisa.controllers.ChallengeManager;
+import fr.ensisa.model.Challenge;
+import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,17 +49,20 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 @Path("/")
-public class Open {
+public class FreeService {
 
-	//private ChallengeFactory challengeFactory = new ChallengeFactory();
-
-	/**
-	 * @brief		This method is called if APPLICATION_XML is request
-	 * @return		APPLICATION_XML
-	 */
 	@GET
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
+	@Path("/toto")
+	public Response toto() {
+		return Response.ok("toto").build();
+	}
+
+	@GET
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	@Path("/home")
 	public Response getChallengesInXML() throws ParserConfigurationException {
 		// Define a factory to produce DOM object trees from XML Documents
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -64,7 +74,7 @@ public class Open {
 		Document doc = builder.newDocument();
 
 		// Check if there is no challenge in the DAO
-		/*if (challengeFactory.getDao().count() == 0) {
+		if (ChallengeManager.count() == 0) {
 			// Creates root element
 			Element root = doc.createElement("errors");
 			doc.appendChild(root);
@@ -92,10 +102,10 @@ public class Open {
 		}
 		else {
 			// Creates root element
-			/*Element root = doc.createElement("challenges");
+			Element root = doc.createElement("challenges");
 			doc.appendChild(root);
 
-			for (Challenge c : challengeFactory.getDao().findAll()) {
+			for (Challenge c : ChallengeManager.getAll()) {
 				// Create challenge element
 				Element challenge = doc.createElement("challenge");
 
@@ -108,11 +118,6 @@ public class Open {
 				Element name = doc.createElement("name");
 				name.appendChild(doc.createTextNode(c.getName()));
 				challenge.appendChild(name);
-
-				// Create author element
-				Element author = doc.createElement("author");
-				author.appendChild(doc.createTextNode(c.getAuthor()));
-				challenge.appendChild(author);
 
 				// Create maxUsers element
 				Element maxUsers = doc.createElement("maxUsers");
@@ -129,28 +134,22 @@ public class Open {
 			}
 
 			return Response.ok(Parser.XML(doc)).build();
-
-		}*/
-		return null;
+		}
 	}
 
-	/**
-	 * @brief		This method is called if APPLICATION_JSON is request
-	 * @return
-	 */
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getChallengesInJSON() {
 		// Check if there is no challenge in the DAO
-		/*if (challengeFactory.getDao().count() == 0) {
+		if (ChallengeManager.count() == 0) {
 			// Creates a JsonObject Builder
 			JsonObject value = Json.createObjectBuilder()
 					.add("error",
 							Json.createObjectBuilder()
-							.add("reason", "no challenges")
-							.add("message", "Not Found")
-							.build()
+									.add("reason", "no challenges")
+									.add("message", "Not Found")
+									.build()
 					)
 					.add("code", "404")
 					.build();
@@ -161,23 +160,20 @@ public class Open {
 			// Create a JSON array Builder
 			JsonArrayBuilder array = Json.createArrayBuilder();
 
-			for (Challenge c : challengeFactory.getDao().findAll()) {
+			for (Challenge c : ChallengeManager.getAll()) {
 				// Creates a JsonObject Builder
 				array.add(
 						Json.createObjectBuilder()
-						.add("id", c.getId())
-						.add("name", c.getName())
-						.add("author", c.getAuthor())
-						.add("maxUsers", c.getMaxUsers())
-						.add("gamingMode", c.getMode().getName())
-						.build()
+								.add("id", c.getId())
+								.add("name", c.getName())
+								.add("maxUsers", c.getMaxUsers())
+								.add("gamingMode", c.getMode().getName())
+								.build()
 				);
 			}
 
 			return Response.ok(array.build().toString()).build();
-
-		}*/
-		return null;
+		}
 	}
 
 }

@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.controllers;
+package fr.ensisa.security;
 /**
- *		@file            	EnigmaManager.java
+ *		@file            	SigninNeeded.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,42 +33,15 @@ package fr.ensisa.controllers;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.dao.EnigmaDao;
-import fr.ensisa.factory.Factory;
-import fr.ensisa.model.Enigma;
-import java.util.List;
+import javax.ws.rs.NameBinding;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class EnigmaManager extends Manager {
-
-    private static Factory<EnigmaDao> factory = new Factory<EnigmaDao>() {
-        @Override
-        public EnigmaDao getDao() {
-            return new EnigmaDao();
-        }
-    };
-
-    public static boolean create(String name, String description) {
-        return factory.getDao().persist(new Enigma(name, description));
-    }
-
-    public static Enigma getById(long id) {
-        return factory.getDao().findById(id);
-    }
-
-    public static Enigma getByName(String name) {
-        return factory.getDao().findByKey("name", name);
-    }
-
-    public static List<Enigma> getAll() {
-        return factory.getDao().findAll();
-    }
-
-    public static boolean delete(Enigma enigma) {
-        return factory.getDao().remove(enigma);
-    }
-
-    public static int count() {
-        return factory.getDao().count();
-    }
+@NameBinding
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(value = RetentionPolicy.RUNTIME)
+public @interface SigninNeeded {
 
 }

@@ -33,6 +33,8 @@ package fr.ensisa.admin;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import fr.ensisa.controllers.ChallengeManager;
+import fr.ensisa.model.Challenge;
 import fr.ensisa.res.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,12 +50,10 @@ import javax.xml.parsers.ParserConfigurationException;
 @Path("/challenge")
 public class Close {
 
-    //private ChallengeFactory challengeFactory = new ChallengeFactory();
-
     @POST
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response createChallengeInXML(@QueryParam("token") String token, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) throws ParserConfigurationException {
+    public Response createChallengeInXML(@QueryParam("token") String token, @QueryParam("name") String name, @QueryParam("maxUsers") int maxUsers) throws ParserConfigurationException {
         // Define a factory to produce DOM object trees from XML Documents
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -93,7 +93,7 @@ public class Close {
         else {
             // TODO : Check if token is authorized
 
-            if ((name == null && author == null && mode == null) || (name.isEmpty() && author.isEmpty() && mode.isEmpty())) {
+            if (name == null || name.isEmpty()) {
                 // Creates root element
                 Element root = doc.createElement("errors");
                 doc.appendChild(root);
@@ -103,7 +103,7 @@ public class Close {
 
                 // Creates reason element
                 Element reason = doc.createElement("reason");
-                reason.appendChild(doc.createTextNode("null query parameters"));
+                reason.appendChild(doc.createTextNode("null query parameter"));
                 error.appendChild(reason);
 
                 // Creates message element
@@ -121,24 +121,49 @@ public class Close {
             }
             else {
                 // Add new challenge in the database
-                /*challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
+                if (ChallengeManager.create(name, maxUsers)) {
+                    // Creates root element
+                    Element root = doc.createElement("success");
+                    doc.appendChild(root);
 
-                // Creates root element
-                Element root = doc.createElement("success");
-                doc.appendChild(root);
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("challenge has been created"));
+                    root.appendChild(message);
 
-                // Creates message element
-                Element message = doc.createElement("message");
-                message.appendChild(doc.createTextNode("challenge has been created"));
-                root.appendChild(message);
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("200"));
+                    root.appendChild(code);
 
-                // Creates code element
-                Element code = doc.createElement("code");
-                code.appendChild(doc.createTextNode("200"));
-                root.appendChild(code);
+                    return Response.ok(Parser.XML(doc)).build();
+                }
+                else {
+                    // Creates root element
+                    Element root = doc.createElement("errors");
+                    doc.appendChild(root);
 
-                return Response.ok(Parser.XML(doc)).build();*/
-                return null;
+                    // Creates error element
+                    Element error = doc.createElement("error");
+
+                    // Creates reason element
+                    Element reason = doc.createElement("reason");
+                    reason.appendChild(doc.createTextNode("The server has encountered a situation that it does not know how to handle"));
+                    error.appendChild(reason);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("Internal Server Error"));
+                    error.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("500"));
+                    root.appendChild(error);
+                    root.appendChild(code);
+
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(Parser.XML(doc)).build();
+                }
             }
         }
     }
@@ -181,20 +206,33 @@ public class Close {
             }
             else {
                 // Add new challenge in the database
-                /*challengeFactory.getDao().persist(new Challenge(name, author, maxUsers, GamingMode.find(mode).get()));
+                if (ChallengeManager.create(name, maxUsers)) {
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("success",
+                                    Json.createObjectBuilder()
+                                            .add("message", "challenge has been created")
+                                            .add("code", "200")
+                                            .build()
+                            )
+                            .build();
 
-                // Creates a JsonObject Builder
-                JsonObject value = Json.createObjectBuilder()
-                        .add("success",
-                                Json.createObjectBuilder()
-                                        .add("message", "challenge has been created")
-                                        .add("code", "200")
-                                        .build()
-                        )
-                        .build();
+                    return Response.ok(value.toString()).build();
+                }
+                else {
+                    // Creates a JsonObject Builder
+                    JsonObject value = Json.createObjectBuilder()
+                            .add("error",
+                                    Json.createObjectBuilder()
+                                            .add("reason", "The server has encountered a situation that it does not know how to handle")
+                                            .add("message", "Internal Server Error")
+                                            .build()
+                            )
+                            .add("code", "500")
+                            .build();
 
-                return Response.ok(value.toString()).build();*/
-                return null;
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(value.toString()).build();
+                }
             }
         }
     }
@@ -202,7 +240,7 @@ public class Close {
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
-    public Response updateChallengeInXML(@QueryParam("token") String token, @QueryParam("id") int id, @QueryParam("name") String name, @QueryParam("author") String author, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) throws ParserConfigurationException {
+    public Response updateChallengeInXML(@QueryParam("token") String token, @QueryParam("id") int id, @QueryParam("name") String name, @QueryParam("maxUsers") int maxUsers, @DefaultValue("Solo") @QueryParam("mode") String mode) throws ParserConfigurationException {
         // Define a factory to produce DOM object trees from XML Documents
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
@@ -270,6 +308,35 @@ public class Close {
             }
             else {
                 // Check if challenge exists in the database
+                if (ChallengeManager.getById(id) == null) {
+                    // Creates root element
+                    Element root = doc.createElement("errors");
+                    doc.appendChild(root);
+
+                    // Creates error element
+                    Element error = doc.createElement("error");
+
+                    // Creates reason element
+                    Element reason = doc.createElement("reason");
+                    reason.appendChild(doc.createTextNode("challenge does not exists"));
+                    error.appendChild(reason);
+
+                    // Creates message element
+                    Element message = doc.createElement("message");
+                    message.appendChild(doc.createTextNode("Not Found"));
+                    error.appendChild(message);
+
+                    // Creates code element
+                    Element code = doc.createElement("code");
+                    code.appendChild(doc.createTextNode("404"));
+                    root.appendChild(error);
+                    root.appendChild(code);
+
+                    return Response.status(Response.Status.NOT_FOUND).entity(Parser.XML(doc)).build();
+                }
+                else {
+
+                }
                 /*if (!challengeFactory.getDao().find(id).isPresent()) {
                     // Creates root element
                     Element root = doc.createElement("errors");

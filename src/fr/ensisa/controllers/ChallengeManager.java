@@ -67,4 +67,8 @@ public class ChallengeManager extends Manager {
         return factory.getDao().remove(challenge);
     }
 
+    public static int count() {
+        return factory.getDao().count();
+    }
+
 }

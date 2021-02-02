@@ -37,6 +37,8 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.10.1" />
           <element id="library" level="project" name="Maven: javax.ws.rs:javax.ws.rs-api:2.0.1" />
           <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt:0.6.0" />
+          <element id="library" level="project" name="Maven: org.bitbucket.b_c:jose4j:0.7.6" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
         </element>
       </element>
       <element id="directory" name="META-INF">

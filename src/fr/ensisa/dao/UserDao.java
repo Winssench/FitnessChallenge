@@ -35,6 +35,8 @@ package fr.ensisa.dao;
  */
 import fr.ensisa.model.User;
 
+import javax.persistence.EntityManager;
+
 public class UserDao extends Dao<User> {
 
     public UserDao(Class<User> classEntity) {
@@ -45,4 +47,8 @@ public class UserDao extends Dao<User> {
         super(User.class);
     }
 
+    @Override
+    public EntityManager getEntityManager() {
+        return super.getEntityManager();
+    }
 }

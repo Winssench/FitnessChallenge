@@ -39,6 +39,7 @@ import java.util.Optional;
 public enum Role {
 
     ADMINISTRATOR("Administrator"),
+    USER("User"),
     CREATOR("Creator"),
     PLAYER("Player");
 

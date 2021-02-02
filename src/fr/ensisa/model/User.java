@@ -35,6 +35,8 @@ package fr.ensisa.model;
  */
 import fr.ensisa.res.Role;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table
@@ -49,20 +51,21 @@ public class User {
 
     @Basic(fetch = FetchType.LAZY, optional = false)
     private String password;
-    private Role role;
+
+    private Collection<Role> roles;
 
     public User(String username, String password) {
         super();
         this.username = username;
         this.password = password;
-        this.role = Role.ADMINISTRATOR;
+        this.roles = new ArrayList<>();
     }
 
     public User() {
         super();
         this.username = null;
         this.password = null;
-        this.role = Role.ADMINISTRATOR;
+        this.roles = new ArrayList<>();
     }
 
     public long getId() {
@@ -89,12 +92,20 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(Collection<Role> role) {
+        this.roles = roles;
+    }
+
+    public boolean addRole(Role role) {
+        return roles.add(role);
+    }
+
+    public boolean remove(Role role) {
+        return roles.remove(role);
     }
 
     @Override
@@ -103,7 +114,6 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
                 '}';
     }
 

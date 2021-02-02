@@ -48,8 +48,6 @@ import javax.xml.parsers.ParserConfigurationException;
 @Path("/profile")
 public class Profile {
 
-    //private UserFactory userFactory = new UserFactory();
-
     @GET
     @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)

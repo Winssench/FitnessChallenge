@@ -17,9 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.controllers;
+package fr.ensisa.security;
 /**
- *		@file            	EnigmaManager.java
+ *		@file            	RsaKeyProducer.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,42 +33,29 @@ package fr.ensisa.controllers;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.dao.EnigmaDao;
-import fr.ensisa.factory.Factory;
-import fr.ensisa.model.Enigma;
-import java.util.List;
+import org.jose4j.jwk.RsaJsonWebKey;
+import org.jose4j.jwk.RsaJwkGenerator;
+import org.jose4j.lang.JoseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class EnigmaManager extends Manager {
+public class RsaKeyProducer {
 
-    private static Factory<EnigmaDao> factory = new Factory<EnigmaDao>() {
-        @Override
-        public EnigmaDao getDao() {
-            return new EnigmaDao();
+    private static RsaJsonWebKey one;
+
+    public static RsaJsonWebKey produce() {
+        // Check if one RSA Key is null
+        if (one == null) {
+            try {
+                // Generate RSA Key with 2048 bytes
+                one = RsaJwkGenerator.generateJwk(2048);
+            }
+            catch (JoseException e) {
+                Logger.getLogger(RsaKeyProducer.class.getName()).log(Level.SEVERE, null, e);
+            }
         }
-    };
-
-    public static boolean create(String name, String description) {
-        return factory.getDao().persist(new Enigma(name, description));
-    }
-
-    public static Enigma getById(long id) {
-        return factory.getDao().findById(id);
-    }
-
-    public static Enigma getByName(String name) {
-        return factory.getDao().findByKey("name", name);
-    }
-
-    public static List<Enigma> getAll() {
-        return factory.getDao().findAll();
-    }
-
-    public static boolean delete(Enigma enigma) {
-        return factory.getDao().remove(enigma);
-    }
-
-    public static int count() {
-        return factory.getDao().count();
+        // Return one RSA Key
+        return one;
     }
 
 }

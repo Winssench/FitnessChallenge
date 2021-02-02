@@ -67,4 +67,8 @@ public class CrossingPointManager extends Manager {
         return factory.getDao().remove(crossingPoint);
     }
 
+    public static int count() {
+        return factory.getDao().count();
+    }
+
 }

@@ -67,4 +67,8 @@ public class PhysicalTaskManager extends Manager {
         return factory.getDao().remove(physicalTask);
     }
 
+    public static int count() {
+        return factory.getDao().count();
+    }
+
 }

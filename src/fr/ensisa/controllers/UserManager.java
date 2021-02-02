@@ -55,6 +55,10 @@ public class UserManager extends Manager {
         return factory.getDao().findById(id);
     }
 
+    public static User getByUsername(String username) {
+        return factory.getDao().findByKey("username", username);
+    }
+
     public static List<User> getAll() {
         return factory.getDao().findAll();
     }
@@ -70,6 +74,10 @@ public class UserManager extends Manager {
             }
         }
         return false;
+    }
+
+    public static int count() {
+        return factory.getDao().count();
     }
 
 }
