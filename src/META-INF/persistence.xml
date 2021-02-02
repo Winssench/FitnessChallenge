@@ -2,14 +2,14 @@
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="FitnessChalleng2021" transaction-type="RESOURCE_LOCAL">
 		<class>fr.ensisa.admin.Employee</class>
-		<class>fr.ensisa.model.User</class>
-		<class>fr.ensisa.model.Challenge</class>
-		<class>fr.ensisa.model.Segment</class>
+		<class>fr.ensisa.model.h.User</class>
+		<class>fr.ensisa.model.h.Challenge</class>
+		<class>fr.ensisa.model.h.Segment</class>
 		
-		<class>fr.ensisa.model.Obstacle</class>
-		<class>fr.ensisa.model.Enigma</class>
-		<class>fr.ensisa.model.PhysicalTask</class>
-		<class>fr.ensisa.model.CrossingPoint</class>
+		<class>fr.ensisa.model.h.Obstacle</class>
+		<class>fr.ensisa.model.h.Enigma</class>
+		<class>fr.ensisa.model.h.PhysicalTask</class>
+		<class>fr.ensisa.model.h.CrossingPoint</class>
 		
 		
 		 <properties>

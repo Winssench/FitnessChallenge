@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -17,19 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+package fr.ensisa.model.h;
 /**
- *		@file            	CrossingPoint.java
+ *		@file            	Segment.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -43,45 +33,34 @@ import javax.persistence.Table;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import javax.persistence.*;
 
-//@Entity(name="CrossingPoint")
-//@Table(name = "crossingPoint")
-public class CrossingPoint {
-	
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+@Entity
+@Table
+public class Segment {
+
+    @Id
+    @GeneratedValue
     private long id;
 
     private String name;
-    private float score;
-    
-    public long getId() {
-		return id;
-	}
+    private Segment next;
+    private Challenge challengeOwner;
+    private float distance;
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public Segment getSegmentOwner() {
-		return segmentOwner;
-	}
-
-	public void setSegmentOwner(Segment segmentOwner) {
-		this.segmentOwner = segmentOwner;
-	}
-
-
-	private Segment segmentOwner; 
-    
-    public CrossingPoint()
-    {
-    	
+    public Segment(String name, float distance) {
+        super();
+        this.name = name;
+        this.next = null;
+        this.challengeOwner = null;
+        this.distance = distance;
     }
 
-    public CrossingPoint(String name, float score) {
-        this.name = name;
-        this.score = score;
+    public Segment() {
+        super();
+        this.name = null;
+        this.next = null;
+        this.challengeOwner = null;
     }
 
     public String getName() {
@@ -92,12 +71,36 @@ public class CrossingPoint {
         this.name = name;
     }
 
-    public float getScore() {
-        return score;
+    public Segment getNext() {
+        return next;
     }
 
-    public void setScore(float score) {
-        this.score = score;
+    public void setNext(Segment next) {
+        this.next = next;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public Challenge getChallengeOwner() {
+        return challengeOwner;
+    }
+
+    public void setChallengeOwner(Challenge challengeOwner) {
+        this.challengeOwner = challengeOwner;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return "Segment{" +
+                "next=" + next +
+                ", distance=" + distance +
+                '}';
     }
 
 }

@@ -47,8 +47,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity(name = "Segment")
-@Table(name = "segment")
+//@Entity(name = "Segment")
+//@Table(name = "segment")
 public class Segment {
 
 	public Segment() {

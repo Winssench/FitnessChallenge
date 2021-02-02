@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -17,12 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-
+package fr.ensisa.dao.h;
 /**
- *		@file            	PhysicalTask.java
+ *		@file            	ChallengeDao.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -36,44 +33,16 @@ import javax.persistence.Entity;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.ObstacleType;
+import fr.ensisa.model.Challenge;
 
+public class ChallengeDao extends Dao<Challenge> {
 
-//@Entity(name = "PhysicalTask")
-//@DiscriminatorValue("PhysicalTask")
-public class PhysicalTask extends Obstacle {
-
-    private boolean state;
-
-    public PhysicalTask(String goal, boolean state) {
-        this.state = state;
-        this.goal = goal;
-        this.type = ObstacleType.PHYSICAL;
-    }
-    
-    public PhysicalTask()
-    {
-    	
+    public ChallengeDao(Class<Challenge> classEntity) {
+        super(classEntity);
     }
 
-    public String getGoal() {
-        return goal;
-    }
-
-    public void setGoal(String goal) {
-        this.goal = goal;
-    }
-
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public ObstacleType getType() {
-        return type;
+    public ChallengeDao() {
+        super(Challenge.class);
     }
 
 }

@@ -47,12 +47,12 @@ import fr.ensisa.res.Role;
  *            of Us® © 2020 ENSISA (UHA) - All rights reserved.
  */
 
-@Entity
-@Table
+//@Entity
+//@Table
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	private String username;

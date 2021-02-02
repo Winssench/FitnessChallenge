@@ -17,16 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+package fr.ensisa.routes;
 /**
- *		@file            	Enigma.java
+ *		@file            	Open.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -40,50 +33,61 @@ import javax.persistence.Id;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.res.ObstacleType;
+import org.w3c.dom.Document;
 
-//@Entity(name = "Enigma")
-//@DiscriminatorValue("Enigma")
-public class Enigma extends Obstacle {
+import fr.ensisa.controllers.ChallengeManager;
+import fr.ensisa.model.Challenge;
 
+
+import javax.ws.rs.core.Response.Status;
+import java.util.List;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+
+@Path("/")
+public class Open {
+
+	//private ChallengeFactory challengeFactory = new ChallengeFactory();
+
+	/**
+	 * @brief		This method is called if APPLICATION_XML is request
+	 * @return		APPLICATION_XML
+	 */
 	
-	
-	
-	public Enigma()
-	{
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getChallengesInJSON() {
+		// Check if there is no challenge in the DAO
+		List<Challenge> lc = ChallengeManager.getChallengs();
+		if(lc != null)
+		{
+			GenericEntity<List<Challenge>> entity = new GenericEntity<List<Challenge>>(lc) {};
+			return Response.ok().entity(entity).build();
+		}
 		
+		return Response.status(Status.NO_CONTENT).build();
 	}
 	
-    private String answer;
+	
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getChallenge(@PathParam("id") String id) {
 
-    public Enigma(String goal, String answer) {
-        this.answer = answer;
-        this.goal = goal;
-        this.type = ObstacleType.PHYSICAL;
-    }
+		//Challenge v = FlightManager.getFlight(id);
+		Challenge v = ChallengeManager.getChallenge((Long.parseLong(id)));
 
-    public String getGoal() {
-        return goal;
-    }
+		if (v != null)
+			return Response.ok().entity(v).build();
 
-    public void setGoal(String goal) {
-        this.goal = goal;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public ObstacleType getType() {
-        return type;
-    }
-
-    public boolean verify(String answer) {
-        return this.answer.equalsIgnoreCase(answer);
-    }
+		return Response.status(Status.NO_CONTENT).build();
+	}
+	
+	
+	
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -17,19 +17,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+package fr.ensisa.model.h;
 /**
- *		@file            	CrossingPoint.java
+ *		@file            	Enigma.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -43,61 +33,54 @@ import javax.persistence.Table;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import fr.ensisa.res.ObstacleType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-//@Entity(name="CrossingPoint")
-//@Table(name = "crossingPoint")
-public class CrossingPoint {
-	
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+@Entity
+@DiscriminatorValue("Enigma")
+public class Enigma extends Obstacle {
 
-    private String name;
-    private float score;
-    
-    public long getId() {
-		return id;
-	}
+    private String answer;
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public Segment getSegmentOwner() {
-		return segmentOwner;
-	}
-
-	public void setSegmentOwner(Segment segmentOwner) {
-		this.segmentOwner = segmentOwner;
-	}
-
-
-	private Segment segmentOwner; 
-    
-    public CrossingPoint()
-    {
-    	
-    }
-
-    public CrossingPoint(String name, float score) {
+    public Enigma(String name, String description) {
+        super();
         this.name = name;
-        this.score = score;
+        this.description = description;
+        this.answer = null;
+        this.type = ObstacleType.ENIGMA;
     }
 
-    public String getName() {
-        return name;
+    public Enigma() {
+        super();
+        this.answer = null;
+        this.type = ObstacleType.ENIGMA;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getAnswer() {
+        return answer;
     }
 
-    public float getScore() {
-        return score;
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
-    public void setScore(float score) {
-        this.score = score;
+    public ObstacleType getType() {
+        return type;
+    }
+
+    public boolean verify(String answer) {
+        return this.answer.equalsIgnoreCase(answer);
+    }
+
+    @Override
+    public String toString() {
+        return "Enigma{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", answer='" + answer + '\'' +
+                ", type=" + type +
+                '}';
     }
 
 }

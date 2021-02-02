@@ -50,16 +50,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "challenge")
+//@Entity
+//@Table(name = "challenge")
 public class Challenge {
 
 	public Challenge() {
 
 	}
 
-	@Id
-	@GeneratedValue
+	//@Id
+	//@GeneratedValue
 	private long id;
 
 	private User owner;

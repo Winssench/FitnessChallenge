@@ -47,13 +47,13 @@ import javax.persistence.ManyToOne;
  */
 import fr.ensisa.res.ObstacleType;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Obstacle_Type")
+//@Entity
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "Obstacle_Type")
 public abstract class Obstacle {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@Id
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 

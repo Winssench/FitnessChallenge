@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020  	Hethsron Jedaël BOUEYA
+ * Copyright © 2021  	Hethsron Jedaël BOUEYA
  * 						Omar CHICHAOUI
  * 					    Pranamika SOLANKI
  *
@@ -17,17 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.model;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+package fr.ensisa.model.h;
 /**
  *		@file            	CrossingPoint.java
  *      @details
@@ -43,45 +33,36 @@ import javax.persistence.Table;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import javax.persistence.*;
 
-//@Entity(name="CrossingPoint")
-//@Table(name = "crossingPoint")
+@Entity
+@Table
 public class CrossingPoint {
-	
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+
+    @Id
+    @GeneratedValue
     private long id;
 
     private String name;
     private float score;
-    
-    public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public Segment getSegmentOwner() {
-		return segmentOwner;
-	}
-
-	public void setSegmentOwner(Segment segmentOwner) {
-		this.segmentOwner = segmentOwner;
-	}
-
-
-	private Segment segmentOwner; 
-    
-    public CrossingPoint()
-    {
-    	
-    }
 
     public CrossingPoint(String name, float score) {
+        super();
         this.name = name;
         this.score = score;
+    }
+
+    public CrossingPoint() {
+        super();
+        this.name = null;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -98,6 +79,14 @@ public class CrossingPoint {
 
     public void setScore(float score) {
         this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "CrossingPoint{" +
+                "name='" + name + '\'' +
+                ", score=" + score +
+                '}';
     }
 
 }
