@@ -14,7 +14,6 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="EclipseLink" />
         <datasource-mapping>
           <factory-entry name="FitnessChalleng2021" value="4c6b5d98-f057-42d3-b677-095317992bc9" />
         </datasource-mapping>
@@ -58,5 +57,7 @@
     <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt:0.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.bitbucket.b_c:jose4j:0.7.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.23" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
   </component>
 </module>

@@ -54,15 +54,6 @@ public class FreeService {
 	@GET
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	@Path("/toto")
-	public Response toto() {
-		return Response.ok("toto").build();
-	}
-
-	@GET
-	@Consumes(MediaType.APPLICATION_XML)
-	@Produces(MediaType.APPLICATION_XML)
-	@Path("/home")
 	public Response getChallengesInXML() throws ParserConfigurationException {
 		// Define a factory to produce DOM object trees from XML Documents
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
