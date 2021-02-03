@@ -89,10 +89,14 @@ For developement, before running the application, you need to clone this project
 
 ## Usage
 
+## Model
+
+![Model](class-diagram.png)
+
 ### Command-Line interface
 When you use [`Postman Desktop Agent`](https://www.postman.com/) to send requests and receive responses through our REST API :
 
-# Bug Fixed
+## Bug Fixed
 
 Eclipse is an IDE that sometimes has bugs. Not having been spared by this, we encountered a bug that we solved by creating a new table by hand. As an example, if this happens, we recommend using the following command:
 
