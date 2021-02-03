@@ -17,9 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.dao.h;
+package fr.ensisa.controllers;
+import java.util.List;
+
 /**
- *		@file            	UserDao.java
+ *		@file            	EnigmaManager.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,16 +35,52 @@ package fr.ensisa.dao.h;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
+import fr.ensisa.dao.DAOEnigma;
+import fr.ensisa.model.Enigma;
 import fr.ensisa.model.User;
 
-public class UserDao extends Dao<User> {
+public class EnigmaManager {
 
-    public UserDao(Class<User> classEntity) {
-        super(classEntity);
-    }
+	static DAOEnigma daoEnigma = new DAOEnigma();
 
-    public UserDao() {
-        super(User.class);
-    }
 
+	public static List<Enigma> getEnigmas()
+	{
+		List<Enigma> lv = daoEnigma.findAll();
+		return lv;
+	}
+
+	public static Enigma getEnigma(long id) {
+
+		Enigma u = daoEnigma.find(id);
+		return u;
+	}
+
+	public static boolean createEnigma(long id, String goal, String answer) {
+		Enigma en = daoEnigma.find(id);
+		if (en == null) {
+			//public User(long id, String username, String password, Role role) {
+			daoEnigma.create(new Enigma(goal,  answer));
+			return true;
+		}
+		return false;
+	}
+	
+	public static int countEnigmas()
+	{
+		return daoEnigma.count();
+	}
+	
+	public static void removeEnigma(Enigma enigma)
+	{
+		//daoUser.remove(user);
+		daoEnigma.remove(enigma);
+	}
+	
+	public static void updateEnigma(Enigma enigma)
+	{
+		//daoUser.edit(user);
+		daoEnigma.edit(enigma);
+	}
+	
 }

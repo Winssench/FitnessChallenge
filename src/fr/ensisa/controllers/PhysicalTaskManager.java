@@ -17,9 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.dao.h;
+package fr.ensisa.controllers;
+import java.util.List;
+
 /**
- *		@file            	CrossingPointDao.java
+ *		@file            	PhysicalTaskManager.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,16 +35,50 @@ package fr.ensisa.dao.h;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.model.CrossingPoint;
+import fr.ensisa.dao.DAOPhysicalTask;
+import fr.ensisa.model.PhysicalTask;
+import fr.ensisa.model.User;
 
-public class CrossingPointDao extends Dao<CrossingPoint> {
+public class PhysicalTaskManager {
 
-    public CrossingPointDao(Class<CrossingPoint> classEntity) {
-        super(classEntity);
-    }
+	static DAOPhysicalTask daoPhysicalTask = new DAOPhysicalTask();
 
-    public CrossingPointDao() {
-        super(CrossingPoint.class);
-    }
+	public static List<PhysicalTask> getPhysicalTasks()
+	{
+		List<PhysicalTask> lv = daoPhysicalTask.findAll();
+		return lv;
+	}
 
+	public static PhysicalTask getPhysicalTask(long id) {
+
+		PhysicalTask u = daoPhysicalTask.find(id);
+		return u;
+	}
+
+	public static boolean createPhysicalTask(long id, String goal, boolean state) {
+		PhysicalTask pt = daoPhysicalTask.find(id);
+		if (pt == null) {
+			daoPhysicalTask.create(new PhysicalTask(goal, state));
+			return true;
+		}
+		return false;
+	}
+	
+	public static int countPhysicalTasks()
+	{
+		return daoPhysicalTask.count();
+	}
+	
+	public static void removePhysical(PhysicalTask phy)
+	{
+		daoPhysicalTask.remove(phy);
+	}
+	
+	public static void updatePhysical(PhysicalTask phy)
+	{
+		//daoUser.edit(user);
+		daoPhysicalTask.edit(phy);
+	}
+	
+	
 }

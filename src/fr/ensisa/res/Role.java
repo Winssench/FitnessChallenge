@@ -36,26 +36,25 @@ package fr.ensisa.res;
 import java.util.Arrays;
 import java.util.Optional;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+ 
+
 public enum Role {
 
-    ADMINISTRATOR("Administrator"),
-    CREATOR("Creator"),
-    PLAYER("Player");
+    ADMINISTRATOR,
+    CREATOR,
+    PLAYER;
 
-    private final String name;
+   
 
-    Role(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
+    /*
     public static Optional<Role> find(String name) {
         return Arrays.stream(values())
                 .filter(role -> role.name.equals(name))
                 .findFirst();
     }
+    */
 
 }

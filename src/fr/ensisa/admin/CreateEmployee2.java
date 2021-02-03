@@ -14,19 +14,17 @@ import fr.ensisa.model.Challenge;
 import fr.ensisa.model.CrossingPoint;
 import fr.ensisa.model.Enigma;
 import fr.ensisa.model.Obstacle;
+import fr.ensisa.model.Roleu;
 import fr.ensisa.model.Segment;
 import fr.ensisa.model.User;
 import fr.ensisa.res.GamingMode;
 import fr.ensisa.res.Role;
 
-public class CreateEmployee {
+public class CreateEmployee2 {
 
 	public static void main(String[] args) {
 
 		User user = new User();
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("FitnessChalleng2021");
-
-		EntityManager entitymanager = emfactory.createEntityManager();
 		/*
 		user.setId(6);
 		user.setUsername("winssench1");
@@ -38,15 +36,18 @@ public class CreateEmployee {
 		user.setFirstname("wins");
 		user.setLastname("ch");
 		user.setPassword("hello");
-		Role usR = Role.ADMINISTRATOR;
-		Role usR1 = Role.PLAYER;
-		Role usR3 = Role.CREATOR;
 		
-	
-		List<Role> userRoles = new ArrayList<Role>();
-		userRoles.add(usR);
-		userRoles.add(usR1);
-		userRoles.add(usR3);
+		
+		
+		
+		
+		Roleu ra = new Roleu();
+		ra.setRole("ADMIN");
+		Roleu ra2 = new Roleu();
+		ra2.setRole("PLAYER");
+		
+		ra.setOwnerRole(user);
+		ra2.setOwnerRole(user);
 		
 		
 		
@@ -63,13 +64,15 @@ public class CreateEmployee {
 		user1.setLastname("ch");
 		user1.setPassword("hello");
 
-		Role usR11 = Role.PLAYER;
-		Role usR31 = Role.CREATOR;
-		List<Role> userRoles1 = new ArrayList<Role>();
+		Roleu r1 = new Roleu();
+		r1.setRole("ADMIN");
+		Roleu r2 = new Roleu();
+		r1.setRole("PLAYER");
 		
-		userRoles1.add(usR11);
-		userRoles1.add(usR31);
+		r1.setOwnerRole(user1);
+		r2.setOwnerRole(user1);
 		
+
 		
 		Challenge chall = new Challenge("sauter", 12, GamingMode.SOLO, user);
 		
@@ -144,8 +147,16 @@ public class CreateEmployee {
 		//user.addChallenge(chall);
 		chall.setOwner(user);
 
-	
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("FitnessChalleng2021");
+
+		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
+		
+		
+		entitymanager.persist(r2);
+		entitymanager.persist(r1);
+		entitymanager.persist(ra);
+		entitymanager.persist(ra2);
 
 		entitymanager.persist(user);
 		entitymanager.persist(user1);

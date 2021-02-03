@@ -39,8 +39,8 @@ import javax.persistence.Entity;
 import fr.ensisa.res.ObstacleType;
 
 
-//@Entity(name = "PhysicalTask")
-//@DiscriminatorValue("PhysicalTask")
+@Entity(name = "PhysicalTask")
+@DiscriminatorValue("PhysicalTask")
 public class PhysicalTask extends Obstacle {
 
     private boolean state;

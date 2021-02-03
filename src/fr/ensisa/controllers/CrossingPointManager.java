@@ -17,9 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package fr.ensisa.dao.h;
+package fr.ensisa.controllers;
+import java.util.List;
+
 /**
- *		@file            	ChallengeDao.java
+ *		@file            	CrossingPointManager.java
  *      @details
  *
  *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
@@ -33,16 +35,51 @@ package fr.ensisa.dao.h;
  *                       	Licencied Material - Property of Us®
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
-import fr.ensisa.model.Challenge;
+import fr.ensisa.dao.DAOCrossingPoint;
+import fr.ensisa.model.CrossingPoint;
+import fr.ensisa.model.Enigma;
 
-public class ChallengeDao extends Dao<Challenge> {
+public class CrossingPointManager {
 
-    public ChallengeDao(Class<Challenge> classEntity) {
-        super(classEntity);
-    }
+	static DAOCrossingPoint daoCrossingPoint = new DAOCrossingPoint();
 
-    public ChallengeDao() {
-        super(Challenge.class);
-    }
 
+	public static List<CrossingPoint> getCrossingPoints()
+	{
+		List<CrossingPoint> lv = daoCrossingPoint.findAll();
+		return lv;
+	}
+
+	public static CrossingPoint getCrossingPoint(long id) {
+
+		CrossingPoint u = daoCrossingPoint.find(id);
+		return u;
+	}
+
+	public static boolean createCrossingPoint(long id, String name, float score) {
+		CrossingPoint cp = daoCrossingPoint.find(id);
+		if (cp == null) {
+			//public User(long id, String username, String password, Role role) {
+			daoCrossingPoint.create(new CrossingPoint(name,  score));
+			return true;
+		}
+		return false;
+	}
+	
+	public static int countCrossingPoints()
+	{
+		return daoCrossingPoint.count();
+	}
+	
+	public static void removeCrossingPoint(CrossingPoint cr)
+	{
+		daoCrossingPoint.remove(cr);
+	}
+	
+	public static void updateCrossingPoint(CrossingPoint p)
+	{
+		daoCrossingPoint.edit(p);
+		
+	}
+	
 }

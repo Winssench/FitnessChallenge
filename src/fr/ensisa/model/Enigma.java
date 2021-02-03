@@ -42,12 +42,13 @@ import javax.persistence.Id;
  */
 import fr.ensisa.res.ObstacleType;
 
-//@Entity(name = "Enigma")
-//@DiscriminatorValue("Enigma")
+@Entity(name = "Enigma")
+@DiscriminatorValue("Enigma")
 public class Enigma extends Obstacle {
 
 	
-	
+
+
 	
 	public Enigma()
 	{

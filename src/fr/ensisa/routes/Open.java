@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.routes;
+
 /**
  *		@file            	Open.java
  *      @details
@@ -36,49 +37,66 @@ package fr.ensisa.routes;
 import org.w3c.dom.Document;
 
 import fr.ensisa.controllers.ChallengeManager;
+import fr.ensisa.controllers.UserManager;
+import fr.ensisa.dao.DAOUser;
 import fr.ensisa.model.Challenge;
-
+import fr.ensisa.model.CrossingPoint;
+import fr.ensisa.model.Enigma;
+import fr.ensisa.model.Obstacle;
+import fr.ensisa.model.Segment;
+import fr.ensisa.model.User;
+import fr.ensisa.res.GamingMode;
+import fr.ensisa.res.Role;
+import fr.ensisa.security.SigninNeeded;
 
 import javax.ws.rs.core.Response.Status;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
+import javax.ws.rs.core.SecurityContext;
 
 @Path("/")
 public class Open {
 
-	//private ChallengeFactory challengeFactory = new ChallengeFactory();
-
-	/**
-	 * @brief		This method is called if APPLICATION_XML is request
-	 * @return		APPLICATION_XML
-	 */
-	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getChallengesInJSON() {
 		// Check if there is no challenge in the DAO
+
 		List<Challenge> lc = ChallengeManager.getChallengs();
-		if(lc != null)
-		{
-			GenericEntity<List<Challenge>> entity = new GenericEntity<List<Challenge>>(lc) {};
+		if (lc != null) {
+			GenericEntity<List<Challenge>> entity = new GenericEntity<List<Challenge>>(lc) {
+			};
 			return Response.ok().entity(entity).build();
 		}
-		
 		return Response.status(Status.NO_CONTENT).build();
+
 	}
-	
-	
+
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getChallenge(@PathParam("id") String id) {
 
-		//Challenge v = FlightManager.getFlight(id);
+		// Challenge v = FlightManager.getFlight(id);
 		Challenge v = ChallengeManager.getChallenge((Long.parseLong(id)));
 
 		if (v != null)
@@ -86,8 +104,45 @@ public class Open {
 
 		return Response.status(Status.NO_CONTENT).build();
 	}
-	
-	
-	
+
+	@DELETE
+	@SigninNeeded
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteChallenge(@PathParam("id") String id, @Context SecurityContext security) {
+
+		// Challenge v = FlightManager.getFlight(id);
+		Challenge v = ChallengeManager.getChallenge((Long.parseLong(id)));
+		User user = UserManager.getUser(security.getUserPrincipal().getName());
+		boolean isadmin = security.isUserInRole("ADMIN");
+
+		if (v != null && isadmin) {
+			ChallengeManager.removeChallange(v);
+			return Response.ok().build();
+
+		}
+
+		return Response.status(Status.NOT_ACCEPTABLE).build();
+	}
+
+	@PUT
+	@SigninNeeded
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateChallenge(@PathParam("id") String id, @Context SecurityContext security) {
+
+		// Challenge v = FlightManager.getFlight(id);
+		Challenge v = ChallengeManager.getChallenge((Long.parseLong(id)));
+		User user = UserManager.getUser(security.getUserPrincipal().getName());
+		boolean isadmin = security.isUserInRole("ADMIN");
+
+		if (v != null && isadmin) {
+			ChallengeManager.updateChallange(v);
+			return Response.ok().build();
+
+		}
+
+		return Response.status(Status.NOT_ACCEPTABLE).build();
+	}
 
 }

@@ -20,11 +20,16 @@
 package fr.ensisa.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,51 +52,85 @@ import fr.ensisa.res.Role;
  *            of Us® © 2020 ENSISA (UHA) - All rights reserved.
  */
 
-//@Entity
-//@Table
+@Entity
+@Table
 public class User {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	@Id
+	private String login;
 
-	private String username;
+	private String firstname;
+	private String lastname;
 	private String password;
-	private Role role;
+	
+	/*
+	
+	@ElementCollection(targetClass=Role.class)
+    @Enumerated(EnumType.STRING) // Possibly optional (I'm not sure) but defaults to ORDINAL.
+    @CollectionTable(name="Drole")
+    @Column(name="interest") // Column name in person_interest
+    Collection<Role> roles;
+    */
+	
 
-	public User(long id, String username, String password, Role role) {
+	
+	public User(String login, String password, String lastname, String firstname) {
 		super();
-		this.id = id;
-		this.username = username;
+		this.login = login;
 		this.password = password;
-		this.role = role;
-
+		this.lastname = lastname;
+		this.firstname = firstname;
 	}
 
-	public User(String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
-
+	
 	public User() {
 		super();
 	}
 
-	public long getId() {
-		return id;
+
+
+
+	public String getLogin() {
+		return login;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
-	public String getUsername() {
-		return username;
+
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
+
+
+	public String getLastname() {
+		return lastname;
+	}
+
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+
+	/*
+	public  Collection<Role> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
+	*/
+
 
 	public String getPassword() {
 		return password;
@@ -101,11 +140,5 @@ public class User {
 		this.password = password;
 	}
 
-	public Role getRole() {
-		return role;
-	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
 }

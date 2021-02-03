@@ -44,12 +44,12 @@ import javax.persistence.Table;
  *                       	© 2020 ENSISA (UHA) - All rights reserved.
  */
 
-//@Entity(name="CrossingPoint")
-//@Table(name = "crossingPoint")
+@Entity(name="CrossingPoint")
+@Table(name = "crossingPoint")
 public class CrossingPoint {
 	
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
     private String name;

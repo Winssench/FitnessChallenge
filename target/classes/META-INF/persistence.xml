@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-	<persistence-unit name="FitnessChalleng2021" transaction-type="RESOURCE_LOCAL">
-		<class>fr.ensisa.admin.Employee</class>
-		<class>fr.ensisa.model.h.User</class>
-		<class>fr.ensisa.model.h.Challenge</class>
-		<class>fr.ensisa.model.h.Segment</class>
+	<persistence-unit name="FitnessChalleng2021" transaction-type="JTA">
+	
 		
-		<class>fr.ensisa.model.h.Obstacle</class>
-		<class>fr.ensisa.model.h.Enigma</class>
-		<class>fr.ensisa.model.h.PhysicalTask</class>
-		<class>fr.ensisa.model.h.CrossingPoint</class>
+		<jta-data-source>jdbc/mysql</jta-data-source>
+		
+		<class>fr.ensisa.model.User</class>
+		<class>fr.ensisa.model.Challenge</class>
+		<class>fr.ensisa.model.Segment</class>
+		
+		<class>fr.ensisa.model.Obstacle</class>
+		<class>fr.ensisa.model.Enigma</class>
+		<class>fr.ensisa.model.PhysicalTask</class>
+		<class>fr.ensisa.model.CrossingPoint</class>
+		<class>fr.ensisa.model.Roleu</class>
 		
 		
-		 <properties>
-	         <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/fitness2021"/>
-	         <property name="javax.persistence.jdbc.user" value="root"/>
-	         <property name="javax.persistence.jdbc.password" value="riboribo"/>
-	         <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-	         <property name="eclipselink.logging.level" value="FINE"/>
-	         <property name="eclipselink.ddl-generation" value="create-tables"/>
-         </properties>
-         
+		<properties>
+	
+        </properties>
+		
+
          
 	</persistence-unit>
 </persistence>

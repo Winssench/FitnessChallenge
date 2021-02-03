@@ -20,7 +20,7 @@ import fr.ensisa.res.Role;
 import fr.ensisa.security.JWTokenUtility;
 import fr.ensisa.security.SigninNeeded;
 
-@Path("/")
+@Path("/auth")
 public class Authentification {
 	
 	@GET
@@ -40,9 +40,9 @@ public class Authentification {
 	@POST
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response signup(@QueryParam("id") String id, @QueryParam("username") String username,
-			@QueryParam("password") String password) {
-		if (UserManager.createUser(Long.parseLong(id), username, password, Role.PLAYER))
+	public Response signup(@QueryParam("login") String login, @QueryParam("password") String password,
+			@QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) {
+		if (UserManager.createUser(login, password, firstname, lastname))
 			return Response.status(Status.CREATED).build();
 		return Response.status(Status.CONFLICT).build();
 
@@ -56,11 +56,10 @@ public class Authentification {
 		User u = UserManager.login(login, password);
 
 		if (u != null)
-			return Response.ok().entity(JWTokenUtility.buildJWT(Long.toString(u.getId()))).build();
+			return Response.ok().entity(JWTokenUtility.buildJWT(u.getLogin())).build();
 
 		return Response.status(Status.NOT_ACCEPTABLE).build();
 	}
-	
 	/**
 	 * Méthode permettant de récupérer l'ensemble des roles d'un utilisateur
 	 * 
@@ -68,7 +67,7 @@ public class Authentification {
 	 * @return une liste de tous les roles associés à l'utilisateur user
 	 */
 	public static List<String> findUserRoles(String user) {
-		return null;
+		return UserManager.getUserRole(user);
 	}
 
 }

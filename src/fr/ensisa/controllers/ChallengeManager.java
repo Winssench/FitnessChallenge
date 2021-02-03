@@ -2,9 +2,16 @@ package fr.ensisa.controllers;
 
 import java.util.List;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
 import fr.ensisa.dao.DAOChallenge;
 import fr.ensisa.dao.DAOUser;
 import fr.ensisa.model.Challenge;
+import fr.ensisa.model.CrossingPoint;
 import fr.ensisa.model.User;
 import fr.ensisa.res.GamingMode;
 import fr.ensisa.res.Role;
@@ -28,7 +35,7 @@ public class ChallengeManager {
 
 
 	//public Challenge(String name, int maxUsers, GamingMode mode, User owner) {
-	public static boolean createChallenge(long id,String name, int maxUsers, GamingMode mode, User owner) {
+	public static boolean createChallenge(long id,String name, int maxUsers, GamingMode mode, User owner) throws SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 		Challenge ch = daoChallenge.find(id);
 		if (ch == null) {
 			//public User(long id, String username, String password, Role role) {
@@ -42,5 +49,16 @@ public class ChallengeManager {
 	{
 		return daoChallenge.count();
 	}
+	
+	public static void removeChallange(Challenge ch)
+	{
+		daoChallenge.remove(ch);
+	}
+	public static void updateChallange(Challenge ch)
+	{
+		daoChallenge.edit(ch);;
+	}
+	
+	
 
 }

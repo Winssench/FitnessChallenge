@@ -41,14 +41,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-//@Entity(name = "Segment")
-//@Table(name = "segment")
+@Entity(name = "Segment")
+@Table(name = "segment")
 public class Segment {
 
 	public Segment() {
@@ -56,7 +57,7 @@ public class Segment {
 	}
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 
 	private Segment next;
