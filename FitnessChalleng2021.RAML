@@ -1,0 +1,196 @@
+#%RAML 0.8
+---
+title: Fitness Challenge 2021
+baseUri: https://github.com/Winssench/FitnessChallenge
+version: v1
+
+/api:
+    description: Access to API Fitness Challenge 2021
+    /:
+        get:
+            description: Get a list of all challenges in the database
+            queryParameters:
+            responses:
+                200:
+                    description: Success, The server display an empty list of challenges or a list of challenges
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                    {
+                                        "id" : 1,
+                                        "name" : "Raid De Kessel",
+                                        "maxUsers" : 10,
+                                        "gamingMode" : "Solo",
+                                        "owner" : "Omar"
+                                    },
+                                    {
+                                        "id" : 2,
+                                        "name" : "De La Comté Au Mordor",
+                                        "maxUsers" : 20,
+                                        "gamingMode" : "Team",
+                                        "owner" : "Hethsron"
+                                    },
+                                    ....
+                                }
+
+                                or
+
+                                []
+                204:
+                    description: No Content, Something went wrong with request
+                    body:
+                        application/json:
+                            example: |
+
+    /{id}:
+        get:
+            description: Get specific challenge information from database by its ID
+            queryParameters:
+            responses:
+                200:
+                    description: The server display information about specific challenge found from database by its ID
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                    "id": 1,
+                                    "name" : "Raid De Kessel",
+                                    "maxUsers": 10,
+                                    "gamingMode" : "Solo",
+                                    "owner" : "Omar"
+                                }
+                204:
+                    description: description: No Content, Something went wrong with request
+                    body:
+                        application/json:
+                            example: |
+
+        delete:
+            description: Delete specific challenge specific challenge from database by its ID
+            queryParameters:
+            responses:
+                200:
+                    description: Success, the specific challenge found by its ID has been deleted from the database
+                    body:
+                        application/json:
+                            example: |
+                406:
+                    description: Not Acceptable, does not find anything that meets the criteria given by the user agent.
+                    body:
+                        application/json:
+                            example: |
+
+        put:
+            description: Update information about a specific challenge stored in database
+            queryParameters:
+            responses:
+                200:
+                    description: Success, the specific challenge found by its ID has been updated into the database
+                    body:
+                        application/json:
+                            example: |
+                406:
+                    description: Not Acceptable, does not find anything that meets the criteria given by the user agent.
+                    body:
+                        application/json:
+                            example: |
+    /whoami:
+        get:
+            description: Check if user information
+            queryParameters:
+                token:
+                    displayName: token
+                    type: string
+                    description: Token Authentication
+                    example:  #gjaoohnbsquytYFYHVSHVYJKNKHAIGINKDBXVHVJOBUOZHZMLNSJOVBHJDVHDVKJVHJVAKJKNJSHIAVHIEVHIA
+                    required: true
+            responses:
+                200:
+                    description: The server display information about specific challenge found from database by its ID
+                        body:
+                            application/json:
+                                example: |
+                                    {
+                                        "id": 1,
+                                        "name" : "Raid De Kessel",
+                                        "maxUsers": 10,
+                                        "gamingMode" : "Solo",
+                                        "owner" : "Omar"
+                                    }
+                204:
+                    description: No Content, Something went wrong with request
+                    body:
+                        application/json:
+                            example: |
+
+    /signin:
+        post:
+            description: Connect to Fitness Challenge Application and Get Access Token to manage services provided
+            queryParameters:
+                login:
+                    displayName: login
+                    type: string
+                    description: An user login
+                    example: Omar
+                    required: true
+                password:
+                    displayName: password
+                    type: string
+                    description: An user password
+                    example: (c)2021-ensisa
+                    required: true
+            responses:
+                200:
+                    description: Success, the user has been connected successfully
+                    body:
+                        application/json:
+                            example: |
+                                {
+                                    #gjaoohnbsquytYFYHVSHVYJKNKHAIGINKDBXVHVJOBUOZHZMLNSJOVBHJDVHDVKJVHJVAKJKNJSHIAVHIEVHIA
+                                }
+                406:
+                    description: Not Acceptable, does not find anything that meets the criteria given by the user agent.
+                    body:
+                        application/json:
+                            example: |
+
+    /signup:
+        post:
+            description: Subscribe to Fitness Challenge Application to be able to use our services
+            queryParameters:
+                login:
+                    displayName: login
+                    type: string
+                    description: An user login
+                    example: Omar
+                    required: true
+                password:
+                    displayName: password
+                    type: string
+                    description: An user password
+                    example: (c)2021-ensisa
+                    required: true
+                firstname:
+                    displayName: firstname
+                    type: string
+                    description: An user description
+                    example: Omar
+                    required: true
+                lastname:
+                    displayName: firstname
+                    type: string
+                    description: A user firstname
+                    example: Chichaoui
+                    required: true
+            responses:
+                200:
+                    description: Success, the user has been subscribed successfully
+                    body:
+                        application/json:
+                            example: |
+                409:
+                    description: Conflict, request conflicts with the current state of the server
+                    body:
+                        application/json:
+                            example: |
