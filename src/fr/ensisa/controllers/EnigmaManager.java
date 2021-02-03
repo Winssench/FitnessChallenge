@@ -37,7 +37,6 @@ import java.util.List;
  */
 import fr.ensisa.dao.DAOEnigma;
 import fr.ensisa.model.Enigma;
-import fr.ensisa.model.User;
 
 public class EnigmaManager {
 

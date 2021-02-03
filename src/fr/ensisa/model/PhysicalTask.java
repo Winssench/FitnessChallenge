@@ -18,6 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -38,42 +39,40 @@ import javax.persistence.Entity;
  */
 import fr.ensisa.res.ObstacleType;
 
-
 @Entity(name = "PhysicalTask")
 @DiscriminatorValue("PhysicalTask")
 public class PhysicalTask extends Obstacle {
 
-    private boolean state;
+	private boolean state;
 
-    public PhysicalTask(String goal, boolean state) {
-        this.state = state;
-        this.goal = goal;
-        this.type = ObstacleType.PHYSICAL;
-    }
-    
-    public PhysicalTask()
-    {
-    	
-    }
+	public PhysicalTask(String goal, boolean state) {
+		this.state = state;
+		this.goal = goal;
+		this.type = ObstacleType.PHYSICAL;
+	}
 
-    public String getGoal() {
-        return goal;
-    }
+	public PhysicalTask() {
 
-    public void setGoal(String goal) {
-        this.goal = goal;
-    }
+	}
 
-    public boolean isState() {
-        return state;
-    }
+	public String getGoal() {
+		return goal;
+	}
 
-    public void setState(boolean state) {
-        this.state = state;
-    }
+	public void setGoal(String goal) {
+		this.goal = goal;
+	}
 
-    public ObstacleType getType() {
-        return type;
-    }
+	public boolean isState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
+	public ObstacleType getType() {
+		return type;
+	}
 
 }

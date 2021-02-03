@@ -9,12 +9,10 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import fr.ensisa.dao.DAOChallenge;
-import fr.ensisa.dao.DAOUser;
 import fr.ensisa.model.Challenge;
-import fr.ensisa.model.CrossingPoint;
 import fr.ensisa.model.User;
 import fr.ensisa.res.GamingMode;
-import fr.ensisa.res.Role;
+
 
 public class ChallengeManager {
 	
@@ -57,6 +55,11 @@ public class ChallengeManager {
 	public static void updateChallange(Challenge ch)
 	{
 		daoChallenge.edit(ch);;
+	}
+	
+	public static void createFullChallenge(Challenge challenge) {
+		//daoUser.createFull(user);
+		daoChallenge.create(challenge);
 	}
 	
 	

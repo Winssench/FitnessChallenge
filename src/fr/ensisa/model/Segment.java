@@ -19,33 +19,10 @@
  */
 package fr.ensisa.model;
 
-/**
- *		@file            	Segment.java
- *      @details
- *
- *      @author          	Hethsron Jedaël BOUEYA (hethsron-jedael.boueya@uha.fr)
- *      					Omar CHICHAOUI (omar.chichaoui@uha.fr)
- *      				    Pranamika SOLANKI (pranamika.solanki@uha.fr)
- *
- *      @version         	0.0.1
- *      @date            	January, 25th 2021
- *
- *      @Copyright       	GPLv3+ : GNU GPL version 3 or later
- *                       	Licencied Material - Property of Us®
- *                       	© 2020 ENSISA (UHA) - All rights reserved.
- */
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity(name = "Segment")
@@ -57,7 +34,7 @@ public class Segment {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private Segment next;
@@ -104,6 +81,5 @@ public class Segment {
 	public void setDistance(float distance) {
 		this.distance = distance;
 	}
-	
 
 }

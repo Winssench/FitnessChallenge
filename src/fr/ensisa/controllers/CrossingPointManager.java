@@ -37,7 +37,6 @@ import java.util.List;
  */
 import fr.ensisa.dao.DAOCrossingPoint;
 import fr.ensisa.model.CrossingPoint;
-import fr.ensisa.model.Enigma;
 
 public class CrossingPointManager {
 

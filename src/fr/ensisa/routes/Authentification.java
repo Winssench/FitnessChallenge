@@ -1,6 +1,6 @@
 package fr.ensisa.routes;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -16,13 +16,13 @@ import javax.ws.rs.core.SecurityContext;
 
 import fr.ensisa.controllers.UserManager;
 import fr.ensisa.model.User;
-import fr.ensisa.res.Role;
+
 import fr.ensisa.security.JWTokenUtility;
 import fr.ensisa.security.SigninNeeded;
 
 @Path("/auth")
 public class Authentification {
-	
+
 	@GET
 	@SigninNeeded
 	@Path("/whoami")
@@ -36,7 +36,7 @@ public class Authentification {
 			return Response.status(Status.NO_CONTENT).build();
 		}
 	}
-	
+
 	@POST
 	@Path("/signup")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,7 +48,6 @@ public class Authentification {
 
 	}
 
-	
 	@POST
 	@Path("/signin")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +59,7 @@ public class Authentification {
 
 		return Response.status(Status.NOT_ACCEPTABLE).build();
 	}
+
 	/**
 	 * Méthode permettant de récupérer l'ensemble des roles d'un utilisateur
 	 * 
@@ -67,7 +67,11 @@ public class Authentification {
 	 * @return une liste de tous les roles associés à l'utilisateur user
 	 */
 	public static List<String> findUserRoles(String user) {
-		return UserManager.getUserRole(user);
+		User user1 = UserManager.getUser(user);
+		List<String> lis = new ArrayList<String>();
+		lis.add(user1.getRole());
+
+		return lis;
 	}
 
 }

@@ -21,15 +21,11 @@ package fr.ensisa.model;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 /**
  *		@file            	Obstacle.java
  *      @details
@@ -55,17 +51,19 @@ public abstract class Obstacle {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
 
-	private Segment segmentOwner;   
-	
+	private Segment segmentOwner;
+
 	protected String goal;
+
 	public Segment getSegmentOwner() {
 		return segmentOwner;
 	}
+
 	public void setSegmentOwner(Segment segmentOwner) {
 		this.segmentOwner = segmentOwner;
 	}
+
 	protected ObstacleType type;
 
 }

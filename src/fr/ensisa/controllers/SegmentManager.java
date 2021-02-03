@@ -37,7 +37,6 @@ import java.util.List;
  */
 import fr.ensisa.dao.DAOSegment;
 import fr.ensisa.model.Segment;
-import fr.ensisa.model.User;
 
 public class SegmentManager {
 

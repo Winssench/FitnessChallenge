@@ -8,7 +8,6 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.HeuristicMixedException;
@@ -84,7 +83,7 @@ public abstract class DAOAbstractFacade<T> {
 		}
 		
 		
-		getEntityManager().close();
+		
 	
 		return entite;
 	}
@@ -111,7 +110,7 @@ public abstract class DAOAbstractFacade<T> {
 			}
 			
 		
-			getEntityManager().close();
+			
 		
 	
 	}
@@ -138,7 +137,7 @@ public abstract class DAOAbstractFacade<T> {
 		}
 		
 	
-		getEntityManager().close();
+		
 		//getEntityManager().remove(getEntityManager().merge(entite));
 	}
 

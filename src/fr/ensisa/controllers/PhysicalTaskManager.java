@@ -37,7 +37,6 @@ import java.util.List;
  */
 import fr.ensisa.dao.DAOPhysicalTask;
 import fr.ensisa.model.PhysicalTask;
-import fr.ensisa.model.User;
 
 public class PhysicalTaskManager {
 

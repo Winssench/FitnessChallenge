@@ -19,24 +19,9 @@
  */
 package fr.ensisa.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import fr.ensisa.res.Role;
 
 /**
  * @file User.java
@@ -62,75 +47,53 @@ public class User {
 	private String firstname;
 	private String lastname;
 	private String password;
-	
-	/*
-	
-	@ElementCollection(targetClass=Role.class)
-    @Enumerated(EnumType.STRING) // Possibly optional (I'm not sure) but defaults to ORDINAL.
-    @CollectionTable(name="Drole")
-    @Column(name="interest") // Column name in person_interest
-    Collection<Role> roles;
-    */
-	
 
-	
+	private String role;
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 	public User(String login, String password, String lastname, String firstname) {
 		super();
 		this.login = login;
 		this.password = password;
 		this.lastname = lastname;
 		this.firstname = firstname;
+		this.role = "PLAYER";
 	}
 
-	
 	public User() {
 		super();
 	}
-
-
-
 
 	public String getLogin() {
 		return login;
 	}
 
-
 	public void setLogin(String login) {
 		this.login = login;
 	}
-
 
 	public String getFirstname() {
 		return firstname;
 	}
 
-
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
-
 
 	public String getLastname() {
 		return lastname;
 	}
 
-
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-
-
-	/*
-	public  Collection<Role> getRoles() {
-		return roles;
-	}
-
-
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
-	}
-	*/
-
 
 	public String getPassword() {
 		return password;
@@ -139,6 +102,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 }

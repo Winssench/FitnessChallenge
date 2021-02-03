@@ -8,16 +8,16 @@
 		<class>fr.ensisa.model.User</class>
 		<class>fr.ensisa.model.Challenge</class>
 		<class>fr.ensisa.model.Segment</class>
-		
 		<class>fr.ensisa.model.Obstacle</class>
 		<class>fr.ensisa.model.Enigma</class>
 		<class>fr.ensisa.model.PhysicalTask</class>
 		<class>fr.ensisa.model.CrossingPoint</class>
-		<class>fr.ensisa.model.Roleu</class>
+	
 		
 		
 		<properties>
-	
+			           <property name="javax.persistence.schema-generation.database.action"
+                  value="create-tables"/>
         </properties>
 		
 

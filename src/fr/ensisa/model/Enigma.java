@@ -18,13 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package fr.ensisa.model;
-import javax.persistence.DiscriminatorColumn;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
  *		@file            	Enigma.java
  *      @details
@@ -46,45 +42,40 @@ import fr.ensisa.res.ObstacleType;
 @DiscriminatorValue("Enigma")
 public class Enigma extends Obstacle {
 
-	
+	public Enigma() {
 
-
-	
-	public Enigma()
-	{
-		
 	}
-	
-    private String answer;
 
-    public Enigma(String goal, String answer) {
-        this.answer = answer;
-        this.goal = goal;
-        this.type = ObstacleType.PHYSICAL;
-    }
+	private String answer;
 
-    public String getGoal() {
-        return goal;
-    }
+	public Enigma(String goal, String answer) {
+		this.answer = answer;
+		this.goal = goal;
+		this.type = ObstacleType.PHYSICAL;
+	}
 
-    public void setGoal(String goal) {
-        this.goal = goal;
-    }
+	public String getGoal() {
+		return goal;
+	}
 
-    public String getAnswer() {
-        return answer;
-    }
+	public void setGoal(String goal) {
+		this.goal = goal;
+	}
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
+	public String getAnswer() {
+		return answer;
+	}
 
-    public ObstacleType getType() {
-        return type;
-    }
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
 
-    public boolean verify(String answer) {
-        return this.answer.equalsIgnoreCase(answer);
-    }
+	public ObstacleType getType() {
+		return type;
+	}
+
+	public boolean verify(String answer) {
+		return this.answer.equalsIgnoreCase(answer);
+	}
 
 }
